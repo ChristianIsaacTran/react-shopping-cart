@@ -40,4 +40,10 @@ Project Requirements:
 - Style application how I would like.
 
 - Make sure to deploy it on the Paas (platform as a service). Last time I used Netlify, and there is a note on the project itself to 
-include as an option for SPA's and redirects. 
+include as an option for SPA's and redirects.
+
+# Tasks done: 
+
+(1/15/2026) Installed vitest and RTL with NPM and included NPM scripts and setup in the config and JSON files
+(1/15/2026) installed react-router library to create SPA (single page application)
+(1/15/2026)
