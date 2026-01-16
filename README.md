@@ -64,3 +64,5 @@ Project goes over concpets such as:
 (1/15/2026) Installed react-router library to create SPA (single page application)
 
 (1/15/2026) Installed PropTypes for prop type checking in react. note: we --save instead of --save-dev because prop-types is used during production, not just development.
+
+(1/15/2026) created routes for project, and included a note on how I got the page to immediately navigate user to the /homepage child route.
