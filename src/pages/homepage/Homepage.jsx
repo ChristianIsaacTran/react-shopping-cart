@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
-import {useState} from "react";
+import { useState } from "react";
+import Header from "../../components/Header/Header";
 
-function Homepage () {  
-    console.log("RAN")
-    return(<div>Home page</div>);
-
+function Homepage() {
+  return (<Header />);
 }
 
 export default Homepage;

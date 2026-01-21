@@ -1,0 +1,16 @@
+.headerBox {
+  font-style: italic;
+  font-size: 2rem;
+  background-color: var(--fortnite-blue);
+  padding: 30px;
+}
+
+.title {
+    color: white;
+    text-shadow: 1px 1px 0px black;
+}
+
+.disclaimer {
+    color: white;
+    font-size: 0.8rem;
+}
