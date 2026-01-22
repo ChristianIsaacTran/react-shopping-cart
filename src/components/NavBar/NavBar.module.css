@@ -1,0 +1,98 @@
+.linkContainer {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #2a095f;
+  color: black;
+  padding: 1rem;
+}
+
+.linkText {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 3rem;
+  text-align: center;
+  z-index: 2;
+}
+
+.linkText:link {
+  color: black;
+}
+
+.linkText:visited {
+  color: black;
+}
+
+.linkOutlineBox {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem;
+  min-width: 13rem;
+  transition: transform 0.5s;
+  background: none;
+}
+
+.linkOutlineBox:hover {
+  transform: scale(1.2);
+}
+
+.linkOutlineBox:hover .skewBox {
+  transform: skewX(-30deg);
+  border: 10px solid rgb(248, 248, 248);
+  background: linear-gradient(yellow, 91%, rgb(255, 255, 255));
+}
+
+.linkOutlineBox:hover .shineBox {
+  transform: skewX(-30deg);
+  animation: shine ease-in-out 0.5s;
+}
+
+.skewBox {
+  position: absolute;
+  min-width: 15.4rem;
+  min-height: 5.4rem;
+  background-color: yellow;
+  z-index: 0;
+  border: 0px solid white;
+  transition: transform 0.5s, border 0.5s;
+}
+
+.shineBox {
+  position: absolute;
+  right: 81%;
+  min-width: 3rem;
+  min-height: 5.4rem;
+  background-color: white;
+  opacity: 0%;
+  z-index: 1;
+  transition: transform 0.5s, border 0.5s;
+  
+}
+
+@keyframes shine {
+  0% {
+    opacity: 0%;
+    min-width: 2.5rem;
+    right: 86%;
+  }
+
+  15% {
+    opacity: 100%;
+  }
+
+  45% {
+    opacity: 100%;
+  }
+
+  75% {
+    opacity: 100%;
+    min-width: 2.5rem;
+  }
+
+  100% {
+    opacity: 0%;
+    min-width: 0rem;
+    right: -4.3%;
+  }
+}
