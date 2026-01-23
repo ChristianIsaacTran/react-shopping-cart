@@ -7,17 +7,17 @@ function NavBar() {
       <div className={Styles.linkOutlineBox}>
         <div className={Styles.skewBox}></div>
         <div className={Styles.shineBox}></div>
-        <Link className={Styles.linkText}>Homepage</Link>
+        <Link className={Styles.linkText} to="../homepage">Homepage</Link>
       </div>
       <div className={Styles.linkOutlineBox}>
         <div className={Styles.skewBox}></div>
         <div className={Styles.shineBox}></div>
-        <Link className={Styles.linkText}>Shop</Link>
+        <Link className={Styles.linkText} to="../store">Shop</Link>
       </div>
       <div className={Styles.linkOutlineBox}>
         <div className={Styles.skewBox}></div>
         <div className={Styles.shineBox}></div>
-        <Link className={Styles.linkText}>Cart</Link>
+        <Link className={Styles.linkText} to="../cart">Cart</Link>
       </div>
     </nav>
   );

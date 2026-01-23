@@ -3,7 +3,7 @@ import Shoppage from "../pages/shoppage/Shoppage";
 import Cartpage from "../pages/cartpage/Cartpage";
 import Errorpage from "../pages/errorpage/Errorpage";
 import Root from "../pages/root/Root";
-import { Navigate } from "react-router"; 
+import { Navigate } from "react-router";
 
 /*
 In order to redirect the user to the /homepage immediately, 
@@ -21,10 +21,7 @@ const routeConfig = [
       { index: true, element: <Navigate to="homepage" replace /> },
       { path: "homepage", element: <Homepage /> },
       { path: "store", element: <Shoppage /> },
-      {
-        path: "cart",
-        element: <Cartpage />,
-      },
+      { path: "cart", element: <Cartpage />},
     ],
   },
 ];

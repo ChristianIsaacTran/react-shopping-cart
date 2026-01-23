@@ -9,6 +9,7 @@ function Homepage() {
       <div>
         <Header />
         <NavBar />
+        <div>Home page</div>
       </div>
     </>
   );
