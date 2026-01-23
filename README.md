@@ -67,3 +67,8 @@ Project goes over concpets such as:
 
 (1/15/2026) created routes for project, and included a note on how I got the page to immediately navigate user to the /homepage child route.
 
+note: adding a selector after a pseudo class lets the pseudo class/event affect the other selector as well.
+ex: 
+button:hover .someotherelement {
+  /*these will affect the other element when button:hover*/
+}

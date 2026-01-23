@@ -10,9 +10,13 @@ function NavBar() {
         <Link className={Styles.linkText}>Homepage</Link>
       </div>
       <div className={Styles.linkOutlineBox}>
+        <div className={Styles.skewBox}></div>
+        <div className={Styles.shineBox}></div>
         <Link className={Styles.linkText}>Shop</Link>
       </div>
       <div className={Styles.linkOutlineBox}>
+        <div className={Styles.skewBox}></div>
+        <div className={Styles.shineBox}></div>
         <Link className={Styles.linkText}>Cart</Link>
       </div>
     </nav>
