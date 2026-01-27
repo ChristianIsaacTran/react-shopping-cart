@@ -57,18 +57,18 @@ Project goes over concpets such as:
 - checking props passed are the correct type with PropTypes.
 - using CSS modules or CSS-in-js to style react components, and keep CSS local to the component instead of global.
 
-## Tasks done:
+## notes to myself
 
-(1/15/2026) Installed vitest and RTL with NPM and included NPM scripts and setup in the config and JSON files
-
-(1/15/2026) Installed react-router library to create SPA (single page application)
-
-(1/15/2026) Installed PropTypes for prop type checking in react. note: we --save instead of --save-dev because prop-types is used during production, not just development.
-
-(1/15/2026) created routes for project, and included a note on how I got the page to immediately navigate user to the /homepage child route.
-
-note: adding a selector after a pseudo class lets the pseudo class/event affect the other selector as well.
+- note: adding a selector after a pseudo class lets the pseudo class/event affect the other selector as well.
 ex: 
 button:hover .someotherelement {
   /*these will affect the other element when button:hover*/
 }
+
+- For react testing with routes, you need to make a whole new router (preferably a memoryRouter since it uses no DOM). This allows us to 
+render our own router with <RouterProvider router={theTestRouter} /> in the render() function inside the test. This renders the whole route
+including the child routes so I can use userEvent to simulate user interactions with navigation elements, then check if the actual location 
+object path is correct with "theTestRouter.state.location.pathname" which returns the current path the testRouter is on. 
+  - memory routers have many utilities, but .state returns the current state of the router, .location returns a location object that 
+  has information related to the current route, and .pathname is the literal current route name.
+
