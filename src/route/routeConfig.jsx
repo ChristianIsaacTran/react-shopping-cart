@@ -20,7 +20,7 @@ const routeConfig = [
     children: [
       { index: true, element: <Navigate to="homepage" replace /> },
       { path: "homepage", element: <Homepage /> },
-      { path: "store", element: <Shoppage /> },
+      { path: "shop", element: <Shoppage /> },
       { path: "cart", element: <Cartpage />},
     ],
   },

@@ -12,7 +12,7 @@ function NavBar() {
       <div className={Styles.linkOutlineBox}>
         <div className={Styles.skewBox}></div>
         <div className={Styles.shineBox}></div>
-        <Link className={Styles.linkText} to="../store">Shop</Link>
+        <Link className={Styles.linkText} to="../shop">Shop</Link>
       </div>
       <div className={Styles.linkOutlineBox}>
         <div className={Styles.skewBox}></div>
