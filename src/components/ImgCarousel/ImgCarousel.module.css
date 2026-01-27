@@ -1,3 +1,28 @@
 .carouselContainer {
+    overflow: hidden;
+    max-width: 50rem;
+}
+
+.carouselList {
     display: flex;
+}
+
+.uiContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.left {
+    border: none;
+    font-size: 5rem;
+    padding: 3rem;
+    border-radius: 50px;
+    
+}
+
+.right {
+    composes: left;
 }

@@ -1,0 +1,28 @@
+.newsItem {
+    list-style: none;
+    position: relative;
+}
+
+.newsTitle {
+    color: white;
+    font-size: 3rem;
+}
+
+.newsImg {
+    max-width: 50rem;
+}
+
+.newsDesc {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.newsContent {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background-color:rgba(0, 0, 0, 0.829);
+    bottom: 0.2rem;
+}
