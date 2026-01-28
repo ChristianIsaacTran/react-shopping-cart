@@ -1,28 +1,41 @@
+.uiContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  padding: 2rem;
+  background-color:rgba(0, 0, 0, 0.616)
+}
+
 .carouselContainer {
-    overflow: hidden;
-    max-width: 50rem;
+  overflow: hidden;
+  max-width: 50rem;
 }
 
 .carouselList {
-    display: flex;
+  display: flex;
+  position: relative;
 }
 
-.uiContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: 2rem;
+.transitionAdded {
+  transition: right, 0.5s;
 }
 
 .left {
-    border: none;
-    font-size: 5rem;
-    padding: 3rem;
-    border-radius: 50px;
-    
+  border: none;
+  font-size: 5rem;
+  padding: 3rem;
+  border-radius: 50px;
+  transition:
+    background-color 0.1s,
+    color 0.1s;
+}
+
+.left:hover {
+  background-color: rgba(0, 0, 0, 0.616);
+  color: white;
 }
 
 .right {
-    composes: left;
+  composes: left;
 }

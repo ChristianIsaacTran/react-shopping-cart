@@ -7,6 +7,14 @@ function ImgCarousel() {
   const [fortniteDataArr, setFortniteDataArr] = useState([]);
   const [fetchError, setFetchError] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // state for keeping track of maximum shift size. Minimum is always 0rem. Shift is 50rem
+  const [limit, setLimit] = useState(0);
+
+  // state for left and right button functionality
+  const [shift, setShift] = useState(0);
+
+  // API fetch and JSON data processing useEffect
   useEffect(() => {
     try {
       const processFortniteData = (fortniteJSON) => {
@@ -23,6 +31,11 @@ function ImgCarousel() {
         );
         const fortniteJSON = await fortniteAPIResponse.json();
         const fortniteMOTDS = processFortniteData(fortniteJSON);
+
+        //calculate min and max limit for image shifting based on the total number of MOTDs
+        const maxShift = (fortniteMOTDS.length - 1) * 50;
+        setLimit(maxShift);
+
         setFortniteDataArr(fortniteMOTDS);
       };
 
@@ -36,6 +49,21 @@ function ImgCarousel() {
     }
   }, []);
 
+  // image carousel automatic shift interval useEffect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // check if right limit reached, loop to start
+      if (shift >= limit) {
+        return setShift(0);
+      }
+
+      return setShift((previousShift) => previousShift + 50);
+    }, 8000);
+
+    // cleanup interval
+    return () => clearInterval(interval);
+  }, [limit, shift]);
+
   //   loading state, display if API data is still being fetched
   if (loading) {
     return <div>News loading...</div>;
@@ -47,6 +75,8 @@ function ImgCarousel() {
   }
 
   //   utility functions for data state render
+
+  //   make an array of NewsCard components to dynamically render under <ul>
   const makeNewsCards = () => {
     const tempCardArr = fortniteDataArr.map((news) => {
       return (
@@ -62,14 +92,51 @@ function ImgCarousel() {
     return tempCardArr;
   };
 
+  //   shifts the <ul> visually to the left to reveal the next MOTD
+  const leftButtonHandler = () => {
+    // check if left limit has been reached, loop image carousel back to the end
+    if (shift <= 0) {
+      return setShift(limit);
+    }
+
+    // shifting left 50 rem
+
+    return setShift((previousShift) => previousShift - 50);
+  };
+
+  //   shifts the <ul> visually to the right to reveal the next MOTD
+  const rightButtonHandler = () => {
+    // check if right limit has been reached, loop image carousel to the beginning
+    if (shift >= limit) {
+      return setShift(0);
+    }
+
+    // shifting right 50 rem
+
+    return setShift((previousShift) => previousShift + 50);
+  };
+
   // data state, display when API data is fully usable
   return (
     <div className={Styles.uiContainer}>
-      <button className={Styles.left}>{"<"}</button>
+      <button type="button" className={Styles.left} onClick={leftButtonHandler}>
+        {"<"}
+      </button>
       <div className={Styles.carouselContainer}>
-        <ul className={Styles.carouselList}>{makeNewsCards()}</ul>
+        <ul
+          className={Styles.carouselList + " " + Styles.transitionAdded}
+          style={{ right: `${shift}rem` }}
+        >
+          {makeNewsCards()}
+        </ul>
       </div>
-      <button className={Styles.right}>{">"}</button>
+      <button
+        type="button"
+        className={Styles.right}
+        onClick={rightButtonHandler}
+      >
+        {">"}
+      </button>
     </div>
   );
 }
