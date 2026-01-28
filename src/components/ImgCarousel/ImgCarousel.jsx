@@ -67,12 +67,12 @@ function ImgCarousel() {
 
   //   loading state, display if API data is still being fetched
   if (loading) {
-    return <div>News loading...</div>;
+    return <div className={Styles.loading}>News loading...</div>;
   }
 
   //   error state, display if API fetch was unsuccessful (error code 400 or above)
   if (fetchError) {
-    return <div>A network error/fetching error occured.</div>;
+    return <div className={Styles.errorMsg}>A network error/fetching error occured.</div>;
   }
 
   //   utility functions for data state render

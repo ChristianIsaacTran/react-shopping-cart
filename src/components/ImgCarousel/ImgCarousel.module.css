@@ -62,3 +62,11 @@
   align-items: center;
   gap: 1rem;
 }
+
+.loading {
+  font-size: 5rem;
+}
+
+.errorMsg {
+  font-size: 5rem;
+}
