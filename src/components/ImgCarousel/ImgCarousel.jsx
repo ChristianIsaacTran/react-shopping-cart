@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Styles from "./ImgCarousel.module.css";
 import NewsCard from "./NewsCard";
+import BubbleNav from "./BubbleNav";
 
 function ImgCarousel() {
   // data, loading, and error states for data fetching
@@ -92,6 +93,18 @@ function ImgCarousel() {
     return tempCardArr;
   };
 
+  // make an array of buttons for the navigation bubbles under the images
+  const makeBubbleNav = () => {
+    let tempShiftVal = 0;
+    const bubbleNavArr = fortniteDataArr.map(() => {
+      const tempComponent = <BubbleNav key={crypto.randomUUID()} bubbleShiftValue={tempShiftVal} currentShift={shift} setShiftFunc={setShift}/>;
+      tempShiftVal = tempShiftVal + 50;
+      return tempComponent;
+    });
+
+    return bubbleNavArr;
+  };
+
   //   shifts the <ul> visually to the left to reveal the next MOTD
   const leftButtonHandler = () => {
     // check if left limit has been reached, loop image carousel back to the end
@@ -118,25 +131,33 @@ function ImgCarousel() {
 
   // data state, display when API data is fully usable
   return (
-    <div className={Styles.uiContainer}>
-      <button type="button" className={Styles.left} onClick={leftButtonHandler}>
-        {"<"}
-      </button>
-      <div className={Styles.carouselContainer}>
-        <ul
-          className={Styles.carouselList + " " + Styles.transitionAdded}
-          style={{ right: `${shift}rem` }}
+    <div className={Styles.componentContainer}>
+      <h1 className={Styles.mainTitle}>News</h1>
+      <div className={Styles.uiContainer}>
+        <button
+          type="button"
+          className={Styles.left}
+          onClick={leftButtonHandler}
         >
-          {makeNewsCards()}
-        </ul>
+          {"<"}
+        </button>
+        <div className={Styles.carouselContainer}>
+          <ul
+            className={Styles.carouselList}
+            style={{ right: `${shift}rem` }}
+          >
+            {makeNewsCards()}
+          </ul>
+          <ul className={Styles.bubbleNav}>{makeBubbleNav()}</ul>
+        </div>
+        <button
+          type="button"
+          className={Styles.right}
+          onClick={rightButtonHandler}
+        >
+          {">"}
+        </button>
       </div>
-      <button
-        type="button"
-        className={Styles.right}
-        onClick={rightButtonHandler}
-      >
-        {">"}
-      </button>
     </div>
   );
 }
