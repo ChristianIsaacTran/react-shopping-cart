@@ -1,0 +1,32 @@
+.githubImg {
+    min-width: 2rem;
+    filter: invert();
+}
+
+.githubLink {
+    min-width: 2rem;
+}
+
+.credit {
+    font-size: 1.5rem;
+}
+
+.githubTitle {
+    font-size: 1.5rem;
+}
+
+.githubContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: var(--fortnite-blue);
+    padding: 1rem;
+    color: white;
+    text-shadow: 2px 2px 0px black;
+}
