@@ -17,37 +17,46 @@ function ImgCarousel() {
 
   // API fetch and JSON data processing useEffect
   useEffect(() => {
-    try {
-      const processFortniteData = (fortniteJSON) => {
-        // extract and copy the MOTD object array to a temp and return that
-        const tempArr = [...fortniteJSON.data.br.motds];
+    const processFortniteData = (fortniteJSON) => {
+      // extract and copy the MOTD object array to a temp and return that
+      const tempArr = [...fortniteJSON.data.br.motds];
 
-        return tempArr;
-      };
+      return tempArr;
+    };
 
-      const fetchFortniteData = async () => {
+    const fetchFortniteData = async () => {
+      try {
         // fetch today's fortnite news
         const fortniteAPIResponse = await fetch(
           "https://fortnite-api.com/v2/news",
         );
+
+        // check if the API response is valid. If not, then throw error manually
+        if(!fortniteAPIResponse.ok) {
+          throw new Error("API error");
+        }
+
         const fortniteJSON = await fortniteAPIResponse.json();
         const fortniteMOTDS = processFortniteData(fortniteJSON);
+
+        console.log(fortniteMOTDS);
 
         //calculate min and max limit for image shifting based on the total number of MOTDs
         const maxShift = (fortniteMOTDS.length - 1) * 50;
         setLimit(maxShift);
 
         setFortniteDataArr(fortniteMOTDS);
-      };
+      } catch (error) {
+        console.log(error);
+        setFetchError(error.message);
+        setFortniteDataArr(null);
+      } finally {
+        // if fetch went well, then change loading to false to trigger final render upon re-render of data
+        setLoading(false);
+      }
+    };
 
-      fetchFortniteData();
-    } catch (error) {
-      setFetchError(error.message);
-      setFortniteDataArr(null);
-    } finally {
-      // if fetch went well, then change loading to false to trigger final render upon re-render of data
-      setLoading(false);
-    }
+    fetchFortniteData();
   }, []);
 
   // image carousel automatic shift interval useEffect
@@ -67,12 +76,16 @@ function ImgCarousel() {
 
   //   loading state, display if API data is still being fetched
   if (loading) {
-    return <div className={Styles.loading}>News loading...</div>;
+    return <h1 className={Styles.loading}>News loading...</h1>;
   }
 
   //   error state, display if API fetch was unsuccessful (error code 400 or above)
   if (fetchError) {
-    return <div className={Styles.errorMsg}>A network error/fetching error occured.</div>;
+    return (
+      <h1 className={Styles.errorMsg}>
+        A network error/fetching error occured.
+      </h1>
+    );
   }
 
   //   utility functions for data state render
@@ -97,7 +110,14 @@ function ImgCarousel() {
   const makeBubbleNav = () => {
     let tempShiftVal = 0;
     const bubbleNavArr = fortniteDataArr.map(() => {
-      const tempComponent = <BubbleNav key={crypto.randomUUID()} bubbleShiftValue={tempShiftVal} currentShift={shift} setShiftFunc={setShift}/>;
+      const tempComponent = (
+        <BubbleNav
+          key={crypto.randomUUID()}
+          bubbleShiftValue={tempShiftVal}
+          currentShift={shift}
+          setShiftFunc={setShift}
+        />
+      );
       tempShiftVal = tempShiftVal + 50;
       return tempComponent;
     });
@@ -142,10 +162,7 @@ function ImgCarousel() {
           {"<"}
         </button>
         <div className={Styles.carouselContainer}>
-          <ul
-            className={Styles.carouselList}
-            style={{ right: `${shift}rem` }}
-          >
+          <ul className={Styles.carouselList} style={{ right: `${shift}rem` }}>
             {makeNewsCards()}
           </ul>
           <ul className={Styles.bubbleNav}>{makeBubbleNav()}</ul>
