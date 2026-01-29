@@ -76,18 +76,16 @@ Project goes over concpets such as:
   response or error I want it to return. But the ruleset I found was:
   1. to simulate a successful response:
      global.fetch = vi.fn(() => Promise.resolve(response goes here));
+     - and the response can be a custom response object with a custom JSON returned, like:
+       ex:
+       const tempResponse = { something: "data is here" };
 
-
-      - and the response can be a custom response object with a custom JSON returned, like:
-        ex:
-        const tempResponse = { something: "data is here" };
-
-        then:
-        global.fetch = vi.fn(() => Promise.resolve({
-          ok: true,       // this is the "ok" status from the response object
-          status: 200,    // this is the response status code that is returned from the response object
-          json: () => Promise.resolve(tempResponse), // the actual JSON data returned from the response object. we are returning the tempResponse
-        }));
+       then:
+       global.fetch = vi.fn(() => Promise.resolve({
+       ok: true, // this is the "ok" status from the response object
+       status: 200, // this is the response status code that is returned from the response object
+       json: () => Promise.resolve(tempResponse), // the actual JSON data returned from the response object. we are returning the tempResponse
+       }));
 
   2. to simulate a unsuccessful/error response:
      global.fetch = vi.fn(() => Promise.reject(new Error("custom error message")));
@@ -96,3 +94,8 @@ Once I've mocked my fetch calls, I can render my component, function, or whateve
 actual API during testing.
 
 render(<myComponentThatCallsFetch />);
+
+- Also, make sure to re-check any try-catch-finally blocks. I made one inside ImgCarousel.jsx, but it wasn't working because
+  I put the fetch logic inside of another function while my try-catch-finally block was on the outer shell. When I moved it inside
+  of the same function as the fetch request, now it works, so make sure that the try-catch-finally blocks are scoped properly if they
+  aren't rendering things properly.

@@ -1,4 +1,5 @@
 import Styles from "./NewsCard.module.css";
+import PropTypes from "prop-types";
 
 function NewsCard({ newsImg, newsDescription, newsTitle }) {
   return (
@@ -11,5 +12,11 @@ function NewsCard({ newsImg, newsDescription, newsTitle }) {
     </li>
   );
 }
+
+NewsCard.propTypes = {
+  newsImg: PropTypes.string.isRequired,
+  newsDescription: PropTypes.string.isRequired,
+  newsTitle: PropTypes.string.isRequired,
+};
 
 export default NewsCard;

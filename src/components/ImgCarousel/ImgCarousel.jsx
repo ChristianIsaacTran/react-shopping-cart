@@ -39,8 +39,6 @@ function ImgCarousel() {
         const fortniteJSON = await fortniteAPIResponse.json();
         const fortniteMOTDS = processFortniteData(fortniteJSON);
 
-        console.log(fortniteMOTDS);
-
         //calculate min and max limit for image shifting based on the total number of MOTDs
         const maxShift = (fortniteMOTDS.length - 1) * 50;
         setLimit(maxShift);
