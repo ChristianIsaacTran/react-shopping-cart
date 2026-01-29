@@ -60,3 +60,5 @@ describe("navigation bar renders other pages", () => {
     expect(router.state.location.pathname).toEqual("/cart");
   });
 });
+
+
