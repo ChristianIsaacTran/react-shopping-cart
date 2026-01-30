@@ -9,3 +9,35 @@
 .error {
     composes: errorMsg from "../ImgCarousel/ImgCarousel.module.css";
 }
+
+.fortniteMap {
+    max-width: 65rem;
+}
+
+.mapFlexContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.buttonFlexContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.toggleButton {
+    font-family: FortniteFont;
+    background-color: #3d02bd;
+    border: 10px solid #2a095f;
+    color: rgb(0, 255, 255);
+    min-width: 15rem;
+    min-height:  7rem;
+    font-size: 2rem;
+    margin: 2rem;
+    transition: background-color 0.1s, color 0.1s;
+}
+
+.toggleButton:hover {
+    background-color: rgba(0, 0, 0, 0.938);
+    color: white;
+}
