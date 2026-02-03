@@ -99,3 +99,8 @@ render(<myComponentThatCallsFetch />);
   I put the fetch logic inside of another function while my try-catch-finally block was on the outer shell. When I moved it inside
   of the same function as the fetch request, now it works, so make sure that the try-catch-finally blocks are scoped properly if they
   aren't rendering things properly.
+
+- when using userEvents from the RTL userEvents, make sure to make the action await because the 
+userEvents are asynchronous so they have to wait for re-renders or other factors triggered by the event.
+
+- 

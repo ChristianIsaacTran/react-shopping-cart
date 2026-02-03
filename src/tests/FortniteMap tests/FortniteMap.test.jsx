@@ -63,15 +63,13 @@ describe("Fortnite Map render POI and blank map tests", () => {
 
     const mapSwapButton = await screen.findByRole("button");
 
-    let mapImg = await screen.findByAltText("Current fortnite season map");
+    const mapImg = await screen.findByAltText("Current fortnite season map");
 
     // assert initial POI map to be displayed
     expect(mapImg.src).toBe("https://i.pinimg.com/originals/90/c2/39/90c239072e05dcf5f27dde0dd13ebf2f.jpg");
 
     // when the user clicks the "hide pois" button, it should toggle between the POI map and the blank map
     await user.click(mapSwapButton);
-
-    mapImg = await screen.findByAltText("Current fortnite season map");
     
     // assert that the map swapped to the blank map URL 
     expect(mapImg.src).toBe("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_lcYgJfxtk77uHgqQF6vpTQzyrirfyzyduQ&s");
