@@ -42,7 +42,7 @@ describe("Image Carousel makes API calls", () => {
     render(<ImgCarousel />);
 
     // assert that fetch request has been called
-    expect(fetch).toHaveBeenCalled(1);
+    expect(fetch).toHaveBeenCalled();
 
     /*
     note: 
@@ -83,7 +83,7 @@ describe("Image Carousel makes API calls", () => {
     render(<ImgCarousel />);
 
     // assert that the fetch is being called
-    expect(fetch).toHaveBeenCalled(1);
+    expect(fetch).toHaveBeenCalled();
 
     const errorMsg = await screen.findByRole("heading", {
       name: "A network error/fetching error occured.",
