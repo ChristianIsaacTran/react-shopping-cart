@@ -12,6 +12,7 @@ function Shoppage() {
     <main>
       <Header />
       <NavBar />
+      <TodayShop />
       <Footer />
     </main>
   );
