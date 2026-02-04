@@ -1,0 +1,11 @@
+.shopTitle {
+    composes: mainTitle from "../ImgCarousel/ImgCarousel.module.css";
+}
+
+.loading {
+    composes: loading from "../ImgCarousel/ImgCarousel.module.css";
+}
+
+.error {
+    composes: errorMsg from "../ImgCarousel/ImgCarousel.module.css";
+}

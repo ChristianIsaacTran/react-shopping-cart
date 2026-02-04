@@ -17,6 +17,13 @@ function ImgCarousel() {
 
   // API fetch and JSON data processing useEffect
   useEffect(() => {
+    /*
+    Using AbortController to cleanup and halt any asynchronous operations on unmount or dependency change to 
+    prevent data leaking when pinging API.
+    */
+    const controller = new AbortController(); //The main controller used to control the fetch request the signal is attached to
+    const signal = controller.signal; // The controller signal which I can pass with fetch request to have it controlled by the controller
+
     const processFortniteData = (fortniteJSON) => {
       // extract and copy the MOTD object array to a temp and return that
       const tempArr = [...fortniteJSON.data.br.motds];
@@ -29,10 +36,11 @@ function ImgCarousel() {
         // fetch today's fortnite news
         const fortniteAPIResponse = await fetch(
           "https://fortnite-api.com/v2/news",
+          { signal }, // pass signal object to use abort controller in the cleanup function
         );
 
         // check if the API response is valid. If not, then throw error manually
-        if(!fortniteAPIResponse.ok) {
+        if (!fortniteAPIResponse.ok) {
           throw new Error("API error");
         }
 
@@ -45,8 +53,15 @@ function ImgCarousel() {
 
         setFortniteDataArr(fortniteMOTDS);
       } catch (error) {
-        setFetchError(error.message);
-        setFortniteDataArr(null);
+        // check if the error received was an intended "AbortError", then ignore it, or if it was an ACTUAL error, then error handle
+        if (error.name === "AbortError") {
+           return console.log(
+            "AbortError: Expected manual cancellation of API fetch, triggered by cleanup function. Ignore Error: ImgCarousel",
+          );
+        } else {
+          setFetchError(error.message);
+          setFortniteDataArr(null);
+        }
       } finally {
         // if fetch went well, then change loading to false to trigger final render upon re-render of data
         setLoading(false);
@@ -54,6 +69,11 @@ function ImgCarousel() {
     };
 
     fetchFortniteData();
+
+    // cleanup function for API fetch request
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   // image carousel automatic shift interval useEffect
@@ -72,7 +92,7 @@ function ImgCarousel() {
   }, [limit, shift]);
 
   //   loading state, display if API data is still being fetched
-  if (loading) {
+  if (loading || fortniteDataArr === null) {
     return <h1 className={Styles.loading}>News loading...</h1>;
   }
 
