@@ -10,13 +10,13 @@ import Styles from "./Homepage.module.css";
 function Homepage() {
   return (
     <>
-      <div>
+      <main>
         <Header />
         <NavBar />
         <ImgCarousel />
         <FortniteMap />
         <Footer />
-      </div>
+      </main>
     </>
   );
 }

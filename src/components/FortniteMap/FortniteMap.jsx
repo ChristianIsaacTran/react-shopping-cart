@@ -32,11 +32,7 @@ function FortniteMap() {
 
         const APIdata = await APIresponse.json();
 
-        console.log(APIdata);
-
         const fortniteMapObj = processMapData(APIdata);
-
-        console.log(fortniteMapObj);
 
         setFortniteMapData(fortniteMapObj);
       } catch (error) {

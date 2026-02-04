@@ -45,7 +45,6 @@ function ImgCarousel() {
 
         setFortniteDataArr(fortniteMOTDS);
       } catch (error) {
-        console.log(error);
         setFetchError(error.message);
         setFortniteDataArr(null);
       } finally {
