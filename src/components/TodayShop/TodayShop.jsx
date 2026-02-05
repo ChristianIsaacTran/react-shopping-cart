@@ -66,7 +66,7 @@ function TodayShop() {
     return () => {
       controller.abort();
     };
-  });
+  }, []);
 
   //   loading state
   if (loading) {
@@ -82,9 +82,17 @@ function TodayShop() {
 
   //   TODO: make card child-components and render them in an <ul>
   //   data state
+  const generateCardGroup = () => {
+    // iterate through the shop data's keys and values, making cards and card groups for each key-value pair
+    for (const [key, value] of Object.entries(shopData)) {
+      console.log(`${key} - ${value}`);
+    }
+  };
+
   return (
     <section>
       <h1 className={Styles.shopTitle}>Today's Item Shop</h1>
+      {shopData && generateCardGroup()}
     </section>
   );
 }
