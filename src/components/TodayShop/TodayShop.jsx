@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Styles from "./TodayShop.module.css";
+import CardGroup from "./CardGroup";
 
 function TodayShop() {
   // TODO: make the item shop generate cards for today's item shop
@@ -19,6 +20,9 @@ function TodayShop() {
 
       // separate all items in the array into item groups. note: make sure to include an initial value to start with for accumulator. In this case, {}
       const groupItems = tempCopyArr.reduce((groupObj, currentItem) => {
+        // generate a UUID property for use in the key property for the current item
+        currentItem["uniqueKey"] = crypto.randomUUID();
+
         if (
           groupObj[currentItem.layout.name] !== null &&
           groupObj[currentItem.layout.name] !== undefined
@@ -83,10 +87,16 @@ function TodayShop() {
   //   TODO: make card child-components and render them in an <ul>
   //   data state
   const generateCardGroup = () => {
+    const renderArr = [];
+
     // iterate through the shop data's keys and values, making cards and card groups for each key-value pair
-    for (const [key, value] of Object.entries(shopData)) {
-      console.log(`${key} - ${value}`);
+    for (const [itemGroupName, itemArr] of Object.entries(shopData)) {
+      renderArr.push(
+        <CardGroup key={itemArr[0].uniqueKey} itemGroupName={itemGroupName} items={itemArr} />,
+      );
     }
+
+    return renderArr;
   };
 
   return (
