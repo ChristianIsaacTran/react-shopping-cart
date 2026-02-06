@@ -91,7 +91,8 @@ function TodayShop() {
 
     // iterate through the shop data's keys and values, making cards and card groups for each key-value pair
     for (const [itemGroupName, itemArr] of Object.entries(shopData)) {
-      renderArr.push(
+      
+        renderArr.push(
         <CardGroup key={itemArr[0].uniqueKey} itemGroupName={itemGroupName} items={itemArr} />,
       );
     }

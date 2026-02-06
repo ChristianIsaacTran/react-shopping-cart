@@ -2,20 +2,21 @@ import Styles from "./CardGroup.module.css";
 import Card from "./Card";
 
 function CardGroup({ itemGroupName, items }) {
+  console.log(itemGroupName);
 
-    const generateCards = () => {
+  const generateCards = () => {
     let cardArr = [];
 
     // for each item in the items prop, make a <li> card/Card component
     cardArr = items.map((item) => {
-        return <Card key={item.uniqueKey} itemData={item}/>; 
+      return <Card key={item.uniqueKey} itemData={item} />;
     });
 
     return cardArr;
   };
 
   return (
-    <div className={Styles.itemGroupContainer}>
+    <div>
       <h1 className={Styles.groupTitle}>{itemGroupName}</h1>
       <ul className={Styles.itemList}>{generateCards()}</ul>
     </div>
