@@ -5,7 +5,15 @@ function Card({ cryptoKey, itemData }) {
   console.log(itemData);
 
 //   returns rarity styling depending on the item rarity
-  const checkRarity = () => {
+  const checkRarity = (isBundle = false) => {
+    
+    // check if the item object is a bundle. If it is, have the rarity banner say bundle 
+    if(isBundle) {
+        return (<div className={Styles.rarityLine + " " + Styles.bundle }>BUNDLE</div>);
+    }
+    
+    
+    // if normal item, then check rarity
     // converts string rarity to lowercase for easier comparison
     const rarity = itemData.brItems[0].rarity.displayValue.toLowerCase();
 
@@ -65,7 +73,6 @@ function Card({ cryptoKey, itemData }) {
     if (Object.hasOwn(itemData, "bundle")) {
       // check if item is a bundle
 
-      //   no rarity if it's a bundle since it contains multiple items
       return (
         <>
           <img
@@ -74,6 +81,7 @@ function Card({ cryptoKey, itemData }) {
             className={Styles.cardImg}
           />
           <div className={Styles.bottomContainer}>
+            {checkRarity(true)}
             <h3 className={Styles.cardName}>{itemData.bundle.name}</h3>
             <div className={Styles.vbucksGroup}>
               <p className={Styles.cardPrice}>{itemData.finalPrice}</p>

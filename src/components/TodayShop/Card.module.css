@@ -71,6 +71,12 @@
     background-color: rgb(170, 0, 105);
 }
 
+.bundle {
+    background-color: rgba(0, 0, 0, 0.521);
+    color: white;
+    text-align: center;
+}
+
 .cardPrice {
   color: white;
   font-size: 2rem;
