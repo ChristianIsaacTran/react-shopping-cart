@@ -1,6 +1,8 @@
 import Styles from "./Card.module.css";
 import vbucksLogo from "../../assets/images/fortniteVBucks.png";
 import { useState } from "react";
+import PropTypes from "prop-types";
+
 
 function Card({ cryptoKey, itemData }) {
   // useState for the item amount input field. Inputs are always strings
@@ -140,6 +142,9 @@ function Card({ cryptoKey, itemData }) {
       });
     };
 
+
+    // TODO: use a cartManger.jsx to send this current item Object to the cart (probably through a normal object)
+
     return (
       <form className={Styles.inputFlexContainer}>
         <div className={Styles.amountContainer}>
@@ -266,5 +271,11 @@ function Card({ cryptoKey, itemData }) {
     </li>
   );
 }
+
+Card.propTypes = {
+    cryptoKey: PropTypes.string.isRequired,
+    itemData: PropTypes.object.isRequired
+
+};
 
 export default Card;

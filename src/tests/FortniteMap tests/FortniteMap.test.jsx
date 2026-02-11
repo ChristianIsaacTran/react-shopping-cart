@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { describe, it, expect, afterEach, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { screen, render } from "@testing-library/react";

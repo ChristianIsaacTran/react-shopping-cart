@@ -1,5 +1,6 @@
 import Styles from "./CardGroup.module.css";
 import Card from "./Card";
+import PropTypes from "prop-types";
 
 function CardGroup({ itemGroupName, items }) {
   console.log(itemGroupName);
@@ -21,6 +22,12 @@ function CardGroup({ itemGroupName, items }) {
       <ul className={Styles.itemList}>{generateCards()}</ul>
     </div>
   );
+}
+
+CardGroup.propTypes = {
+    itemGroupName: PropTypes.string.isRequired,
+    items: PropTypes.array.isRequired
+
 }
 
 export default CardGroup;
