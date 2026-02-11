@@ -9,7 +9,7 @@ function CardGroup({ itemGroupName, items }) {
 
     // for each item in the items prop, make a <li> card/Card component
     cardArr = items.map((item) => {
-      return <Card key={item.uniqueKey} itemData={item} />;
+      return <Card key={item.uniqueKey} itemData={item} cryptoKey={item.uniqueKey}  />;
     });
 
     return cardArr;
