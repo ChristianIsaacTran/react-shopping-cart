@@ -77,7 +77,6 @@ function Card({ cryptoKey, itemData }) {
   const addNumberInput = () => {
     // handles user input change, prevents the use of + and e in numerical input, and any input outside the range
     const amountOnChangeHandler = (e) => {
-      
       // check if input field is empty, then replace with zero
       if (e.target.value === "") {
         return setAmountValue("0");
@@ -99,8 +98,6 @@ function Card({ cryptoKey, itemData }) {
         return;
       }
 
-      
-
       //   convert back to string when done
       tempNum = tempNum.toString();
 
@@ -109,10 +106,48 @@ function Card({ cryptoKey, itemData }) {
       e.target.setCustomValidity("");
     };
 
+    // increment click handler, changes the useState up by one
+    const incrementHandler = () => {
+      // check if amount is within boundaries of 0-99. If out of bounds, prevent increment
+      const testValue = parseInt(amountValue) + 1;
+      if (testValue > 99) {
+        return;
+      }
+
+      setAmountValue((previousValue) => {
+        let tempNum = parseInt(previousValue);
+
+        tempNum = tempNum + 1;
+
+        return tempNum.toString();
+      });
+    };
+
+    // decrement click handler, changes the useState down by one
+    const decrementHandler = () => {
+      // check if amount is within boundaries of 0-99. If out of bounds, prevent decrement
+      const testValue = parseInt(amountValue) - 1;
+      if (testValue < 0) {
+        return;
+      }
+
+      setAmountValue((previousValue) => {
+        let tempNum = parseInt(previousValue);
+
+        tempNum = tempNum - 1;
+
+        return tempNum.toString();
+      });
+    };
+
     return (
       <form className={Styles.inputFlexContainer}>
         <div className={Styles.amountContainer}>
-          <button className={Styles.decrement} type="button">
+          <button
+            className={Styles.decrement}
+            onClick={decrementHandler}
+            type="button"
+          >
             -
           </button>
           <input
@@ -123,7 +158,11 @@ function Card({ cryptoKey, itemData }) {
             min={0}
             onChange={amountOnChangeHandler}
           />
-          <button className={Styles.increment} type="button">
+          <button
+            className={Styles.increment}
+            onClick={incrementHandler}
+            type="button"
+          >
             +
           </button>
         </div>
