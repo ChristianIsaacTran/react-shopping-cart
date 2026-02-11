@@ -3,7 +3,6 @@ import Card from "./Card";
 import PropTypes from "prop-types";
 
 function CardGroup({ itemGroupName, items }) {
-  console.log(itemGroupName);
 
   const generateCards = () => {
     let cardArr = [];

@@ -8,8 +8,6 @@ function Card({ cryptoKey, itemData }) {
   // useState for the item amount input field. Inputs are always strings
   const [amountValue, setAmountValue] = useState("0");
 
-  console.log(itemData);
-
   //   returns rarity styling depending on the item rarity
   const checkRarity = (isBundle = false) => {
     // check if the item object is a bundle. If it is, have the rarity banner say bundle

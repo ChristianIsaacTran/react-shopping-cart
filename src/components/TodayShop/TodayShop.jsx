@@ -46,6 +46,11 @@ function TodayShop() {
           signal,
         });
 
+        // check if response is successful, throw error if not
+        if (!APIResponse.ok) {
+          throw new Error("API error");
+        }
+
         const shopJSON = await APIResponse.json();
 
         const processedData = processShopData(shopJSON);
@@ -80,7 +85,7 @@ function TodayShop() {
   //   error state
   if (error) {
     return (
-      <h1 className={Styles.error}> A network error/fetching error occured.</h1>
+        <h1 className={Styles.error}> A network error/fetching error occured.</h1>
     );
   }
 
@@ -91,9 +96,12 @@ function TodayShop() {
 
     // iterate through the shop data's keys and values, making cards and card groups for each key-value pair
     for (const [itemGroupName, itemArr] of Object.entries(shopData)) {
-      
-        renderArr.push(
-        <CardGroup key={itemArr[0].uniqueKey} itemGroupName={itemGroupName} items={itemArr} />,
+      renderArr.push(
+        <CardGroup
+          key={itemArr[0].uniqueKey}
+          itemGroupName={itemGroupName}
+          items={itemArr}
+        />,
       );
     }
 
