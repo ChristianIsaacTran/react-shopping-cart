@@ -77,6 +77,7 @@ function Card({ cryptoKey, itemData }) {
   const addNumberInput = () => {
     // handles user input change, prevents the use of + and e in numerical input, and any input outside the range
     const amountOnChangeHandler = (e) => {
+      
       // check if input field is empty, then replace with zero
       if (e.target.value === "") {
         return setAmountValue("0");
@@ -97,6 +98,8 @@ function Card({ cryptoKey, itemData }) {
         e.target.reportValidity();
         return;
       }
+
+      
 
       //   convert back to string when done
       tempNum = tempNum.toString();
