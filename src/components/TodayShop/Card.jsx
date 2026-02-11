@@ -1,7 +1,11 @@
 import Styles from "./Card.module.css";
 import vbucksLogo from "../../assets/images/fortniteVBucks.png";
+import { useState } from "react";
 
 function Card({ cryptoKey, itemData }) {
+  // useState for the item amount input field. Inputs are always strings
+  const [amountValue, setAmountValue] = useState("0");
+
   console.log(itemData);
 
   //   returns rarity styling depending on the item rarity
@@ -69,6 +73,64 @@ function Card({ cryptoKey, itemData }) {
     return <div>rarity not found...</div>;
   };
 
+  //  function returns jsx element to add a number variable input, and an increment and decrement button to item
+  const addNumberInput = () => {
+    // handles user input change, prevents the use of + and e in numerical input, and any input outside the range
+    const amountOnChangeHandler = (e) => {
+      // check if input field is empty, then replace with zero
+      if (e.target.value === "") {
+        return setAmountValue("0");
+      }
+
+      // input number received, convert to int to get rid of preceding zeroes
+      let tempNum = parseInt(e.target.value);
+
+      // regex for only number inputs, check if input is NOT a number
+      const onlyNumbers = /^\d+$/;
+
+      if (!onlyNumbers.test(tempNum) || tempNum > 99 || tempNum < 0) {
+        e.target.setCustomValidity(
+          "Has to be within 0-99 range and only numbers!",
+        );
+
+        // set and display validity error for input
+        e.target.reportValidity();
+        return;
+      }
+
+      //   convert back to string when done
+      tempNum = tempNum.toString();
+
+      //   if no error, clear validity message.
+      setAmountValue(tempNum);
+      e.target.setCustomValidity("");
+    };
+
+    return (
+      <form className={Styles.inputFlexContainer}>
+        <div className={Styles.amountContainer}>
+          <button className={Styles.decrement} type="button">
+            -
+          </button>
+          <input
+            className={Styles.itemAmount}
+            type="number"
+            value={amountValue}
+            max={99}
+            min={0}
+            onChange={amountOnChangeHandler}
+          />
+          <button className={Styles.increment} type="button">
+            +
+          </button>
+        </div>
+        <button className={Styles.addToCart} type="button">
+          Add to cart
+        </button>
+      </form>
+    );
+  };
+
   // checks if the item is a bundle, regular item, jamtrack, etc. and renders the respective information
   const renderItemType = () => {
     if (Object.hasOwn(itemData, "bundle")) {
@@ -93,6 +155,7 @@ function Card({ cryptoKey, itemData }) {
               />
             </div>
           </div>
+          {addNumberInput()}
         </>
       );
     } else if (Object.hasOwn(itemData, "tracks")) {
@@ -118,6 +181,7 @@ function Card({ cryptoKey, itemData }) {
               />
             </div>
           </div>
+          {addNumberInput()}
         </>
       );
     } else if (Object.hasOwn(itemData, "brItems")) {
@@ -146,6 +210,7 @@ function Card({ cryptoKey, itemData }) {
               />
             </div>
           </div>
+          {addNumberInput()}
         </>
       );
     }
