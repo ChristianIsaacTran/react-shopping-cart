@@ -142,9 +142,9 @@ function Card({ cryptoKey, itemData }) {
 
 
     // TODO: use a cartManger.jsx to send this current item Object to the cart (probably through a normal object)
-
+    // onSubmit={}
     return (
-      <form className={Styles.inputFlexContainer}>
+      <form className={Styles.inputFlexContainer} >
         <div className={Styles.amountContainer}>
           <button
             className={Styles.decrement}
