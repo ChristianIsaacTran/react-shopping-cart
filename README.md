@@ -117,3 +117,17 @@ any need to since I didn't make the built-in feature.
 
   diagram I drew up:
   ![useState Route Architecture Drawing](./ShoppingCartArchitectureCartUseState.png)
+
+- So one problem that I just spent hours struggling with is how to "reset" a useState or cause something to re-mount as a new JSX component. When 
+  I was trying to implement a simple fade-in, fade-out notification for adding something to the cart, I tried to avoid using the useEffect() since 
+  setting state was discouraged during a useEffect, so I opted for the key technique. 
+  My main issue was when the user clicks the "Add to Cart" button, this was supposed to happen: 
+    1. A div dynamically rendered in upon re-render
+    2. The div played an animation of appearing, then slowing fading out 
+    3. The div animation needs to play everytime the user clicked on the "Add to Cart" button
+
+  but since I was just using useState, I couldn't figure out how to trigger the animation more than once. When the user clicked on the button initially, the useState would then set the visibility of the div to "true" (I used a boolean useState()) and then it would dynamically render the div which would then play the animation once. The issue I was having was AFTER that initial click, I would have to manually reset the useState variable to "false" and cause the div to un-render or reset, to have the animation play again. In order to accomplish that, I decided to change the useState() to be an object that has two properties: 
+    - visibility: which controls the initial dynamic render and prevents the div from rendering prematurely
+    - key: A number variable that will change everytime the user clicks on the "Add to Cart" button, so that the div will be treated as a new div on every re-render
+
+  
