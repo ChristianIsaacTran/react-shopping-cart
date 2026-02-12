@@ -1,11 +1,24 @@
 import Styles from "./Card.module.css";
 import vbucksLogo from "../../assets/images/fortniteVBucks.png";
-import { useState } from "react";
+import {useState } from "react";
 import PropTypes from "prop-types";
 
 function Card({ cryptoKey, itemData, setCart, cart }) {
   // useState for the item amount input field. Inputs are always strings
   const [amountValue, setAmountValue] = useState("0");
+
+  /* 
+  visual state used to display "added to cart" when user click add to cart
+    - visibility: bool = used to prevent initial render from playing animation without clicking the "Add to cart button"
+    - key: number = used to change the key prop on the <div> every re-render which causes react to replay the animation 
+
+    ** plan is when the user clicks on the "Add to Cart" button, it triggers a re-render which then causes the visibility to become true 
+    which then dynamically renders the <div> with a key. Everytime AFTER the initial "Add to Cart" click, it causes the <div> to have a new 
+    key which then upon re-render, replays the "Added to Cart" animation due to react thinking it's a new element.
+  */
+  const [visible, setVisible] = useState({visiblity: false, key: 0});
+
+
 
   //   returns rarity styling depending on the item rarity
   const checkRarity = (isBundle = false) => {
@@ -139,34 +152,51 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
       });
     };
 
-
     // When the form is submitted, prevent default and add the current item with amount as an object to the cartArr with setCart prop
     // TODO: prevent duplicate items from being added. If the item already exists in the cart, add the amount to the existing array item
     const formSubmitHandler = (e) => {
-        e.preventDefault();
+      e.preventDefault();
 
-        // get value from form submission
-        const submittedItemAmount = parseInt(e.target.amount.value);
+      // get value from form submission
+      const submittedItemAmount = parseInt(e.target.amount.value);
 
-        // if the amount for the item is 0, do nothing
-        if(submittedItemAmount === 0) {
-            return;
-        }
+      // if the amount for the item is 0, do nothing
+      if (submittedItemAmount === 0) {
+        return;
+      }
 
-        // copy cart to an temp array for manipulation
-        const tempArr = [...cart];
+      // copy cart to an temp array for manipulation
+      const tempArr = [...cart];
 
-        // create an object that groups the item object and the amount that the user submitted
-        const tempObj = {
-            item: {...itemData},
-            amount: submittedItemAmount,
-        };
+      // create an object that groups the item object and the amount that the user submitted
+      const tempObj = {
+        item: { ...itemData },
+        amount: submittedItemAmount,
+      };
 
-        tempArr.push(tempObj);
+      tempArr.push(tempObj);
 
-        // set array to the new array with the added item
-        setCart(tempArr);
-    }
+      // set array to the new array with the added item
+      setCart(tempArr);
+
+      /*
+      The button will trigger the re-render which will cause the 
+      <div> to have a new "key" prop, which means react will unmount/mount the 
+      <div> treating it as a whole new element which will replay the animation again because it's 
+      considering the <div> with a new key to be a new element.
+      */
+      setVisible((previousValue) => {
+        const tempObj = {...previousValue};
+
+        tempObj.visiblity = true;
+
+        tempObj.key = tempObj.key + 1;
+
+        return tempObj;
+      });
+    };
+
+    
 
     return (
       <form className={Styles.inputFlexContainer} onSubmit={formSubmitHandler}>
@@ -195,8 +225,9 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
             +
           </button>
         </div>
+        {visible.visiblity && <div key={visible.key} className={Styles.show}>Added to Cart!</div> }
         <button className={Styles.addToCart} type="submit">
-          Add to cart
+          Add to Cart
         </button>
       </form>
     );

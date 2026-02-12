@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Root() {
   /*
@@ -12,6 +12,7 @@ function Root() {
 
   return (
     <>
+      
       <Outlet context={[cartArr, setCartArr]} />
     </>
   );

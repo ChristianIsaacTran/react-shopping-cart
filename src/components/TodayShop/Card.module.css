@@ -1,15 +1,13 @@
 /* this hides the input: number's side arrows  */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance: textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
-
-
 
 .cardName {
   color: white;
@@ -20,74 +18,74 @@ input[type=number] {
 }
 
 .rarityLine {
-    min-width: 100%;
-    min-height: 0.5rem;
+  min-width: 100%;
+  min-height: 0.5rem;
 }
 
 .legendary {
-    background-color: orange;
+  background-color: orange;
 }
 
 .epic {
-    background-color: rgb(170, 0, 170);
+  background-color: rgb(170, 0, 170);
 }
 
 .rare {
-    background-color: rgb(66, 66, 255);
+  background-color: rgb(66, 66, 255);
 }
 
 .uncommon {
-    background-color: rgb(0, 255, 0);
+  background-color: rgb(0, 255, 0);
 }
 
 .common {
-    background-color: rgb(156, 156, 156);
+  background-color: rgb(156, 156, 156);
 }
 
 .icon {
-    background-color: turquoise;
+  background-color: turquoise;
 }
 
 .marvel {
-    background-color: red;
+  background-color: red;
 }
 
 .gamingLegends {
-    background-color: rgb(50, 26, 65);
+  background-color: rgb(50, 26, 65);
 }
 
 .starWars {
-    background-color: black;
+  background-color: black;
 }
 
 .dc {
-    background-color: rgb(2, 2, 92);
+  background-color: rgb(2, 2, 92);
 }
 
 .slurp {
-    background-color: rgb(0, 181, 194);
+  background-color: rgb(0, 181, 194);
 }
 
 .shadow {
-    background-color: black;
+  background-color: black;
 }
 
 .lava {
-    background-color: rgb(255, 72, 0);
+  background-color: rgb(255, 72, 0);
 }
 
 .frozen {
-    background-color: rgb(136, 136, 250);
+  background-color: rgb(136, 136, 250);
 }
 
 .dark {
-    background-color: rgb(170, 0, 105);
+  background-color: rgb(170, 0, 105);
 }
 
 .bundle {
-    background-color: rgba(0, 0, 0, 0.521);
-    color: white;
-    text-align: center;
+  background-color: rgba(0, 0, 0, 0.521);
+  color: white;
+  text-align: center;
 }
 
 .cardPrice {
@@ -110,55 +108,65 @@ input[type=number] {
 }
 
 .bottomContainer {
-    min-width: 100%;
+  min-width: 100%;
 }
 
 .increment {
-    composes: toggleButton from "../FortniteMap/FortniteMap.module.css";
-    min-height: 3rem;
-    min-width: 3rem;
-    margin: 0;
-
+  composes: toggleButton from "../FortniteMap/FortniteMap.module.css";
+  min-height: 3rem;
+  min-width: 3rem;
+  margin: 0;
 }
 
 .decrement {
-    composes: increment;
+  composes: increment;
 }
 
 .itemAmount {
-    font-family: FortniteFont;
-    color: white;
-    background: none;
-    border: none;
-    font-size: 3rem;
-    text-align: center;
-    max-height: 3rem;
-    max-width: 10rem;
+  font-family: FortniteFont;
+  color: white;
+  background: none;
+  border: none;
+  font-size: 3rem;
+  text-align: center;
+  max-height: 3rem;
+  max-width: 10rem;
 }
 
 .amountContainer {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .addToCart {
-    font-family: FortniteFont;
-    font-size: 1.5rem;
-    min-width: 2rem;
-    min-height: 2rem;
-    color: black;
-    background-color: rgb(255, 217, 0);
-    border: rgb(247, 247, 59) solid 5px;
+  position: relative;
+  font-family: FortniteFont;
+  font-size: 1.5rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  max-width: 8rem;
+  max-height: 5rem;
+  color: black;
+  background-color: rgb(255, 217, 0);
+  border: rgb(247, 247, 59) solid 5px;
+  transition:
+    color 0.1s,
+    background-color 0.1s,
+    border 0.1s,
+    opacity 2s;
+}
 
+.addToCart:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(133, 118, 34);
+  border: rgb(78, 78, 12) solid 5px;
 }
 
 .inputFlexContainer {
-    display: flex;
-    justify-content: space-evenly;
-    min-width: 100%;
-    
+  display: flex;
+  justify-content: space-evenly;
+  min-width: 100%;
 }
-
 
 .listItem {
   display: flex;
@@ -170,4 +178,34 @@ input[type=number] {
   min-height: 25rem;
   max-width: 25rem;
   max-height: 30rem;
+}
+
+
+.show {
+    opacity: 0%;
+    animation: 2s slide-up-fade-out;
+    position: absolute;
+    font-size: 1.5rem;
+    color: white;
+    background-color: green;
+    border: rgb(16, 59, 16) solid 5px;
+    min-width: 8 rem;
+    z-index: 10;
+    transform: translate(130px, -40px);
+}
+
+
+
+@keyframes slide-up-fade-out {
+    0% {
+        opacity: 100%
+    }
+
+    50% {
+
+    }
+
+    100% {
+        opacity: 0%;
+    }
 }

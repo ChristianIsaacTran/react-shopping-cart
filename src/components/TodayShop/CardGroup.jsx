@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 
 function CardGroup({ itemGroupName, items, setCart, cart}) {
 
+  
+
   const generateCards = () => {
     let cardArr = [];
 
