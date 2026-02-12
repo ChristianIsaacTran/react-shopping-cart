@@ -105,3 +105,15 @@ userEvents are asynchronous so they have to wait for re-renders or other factors
 
 - when testing, you cannot test browser built-in features like native input="number" increment and decrement arrow key behavior, nor is there 
 any need to since I didn't make the built-in feature.
+
+- So the "cart" useState is needed by a couple components located on different webpages/routes to work properly:
+    1. shop page: needs the cart setState to "Add to Cart"
+    2. cart page: needs the cart state itself to display all the cart items visually with editing/removal functionality
+    3. NavBar component (all webpages): needs to display the amount of items in the cart at all times, even during navigation 
+
+  I ended up lifting the state up to the parent route component, the "root" page which holds the state. This way the child routes 
+  that are formed using <Outlet> can be provided a "context" and then the child routes can invoke the "useOutletContext()" to get and 
+  destructure the state as needed.
+
+  diagram I drew up:
+  ![useState Route Architecture Drawing](./ShoppingCartArchitectureCartUseState.png)

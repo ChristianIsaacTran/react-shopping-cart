@@ -3,8 +3,7 @@ import vbucksLogo from "../../assets/images/fortniteVBucks.png";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-
-function Card({ cryptoKey, itemData }) {
+function Card({ cryptoKey, itemData, setCart, cart }) {
   // useState for the item amount input field. Inputs are always strings
   const [amountValue, setAmountValue] = useState("0");
 
@@ -141,10 +140,36 @@ function Card({ cryptoKey, itemData }) {
     };
 
 
-    // TODO: use a cartManger.jsx to send this current item Object to the cart (probably through a normal object)
-    // onSubmit={}
+    // When the form is submitted, prevent default and add the current item with amount as an object to the cartArr with setCart prop
+    // TODO: prevent duplicate items from being added. If the item already exists in the cart, add the amount to the existing array item
+    const formSubmitHandler = (e) => {
+        e.preventDefault();
+
+        // get value from form submission
+        const submittedItemAmount = parseInt(e.target.amount.value);
+
+        // if the amount for the item is 0, do nothing
+        if(submittedItemAmount === 0) {
+            return;
+        }
+
+        // copy cart to an temp array for manipulation
+        const tempArr = [...cart];
+
+        // create an object that groups the item object and the amount that the user submitted
+        const tempObj = {
+            item: {...itemData},
+            amount: submittedItemAmount,
+        };
+
+        tempArr.push(tempObj);
+
+        // set array to the new array with the added item
+        setCart(tempArr);
+    }
+
     return (
-      <form className={Styles.inputFlexContainer} >
+      <form className={Styles.inputFlexContainer} onSubmit={formSubmitHandler}>
         <div className={Styles.amountContainer}>
           <button
             className={Styles.decrement}
@@ -160,6 +185,7 @@ function Card({ cryptoKey, itemData }) {
             max={99}
             min={0}
             onChange={amountOnChangeHandler}
+            name="amount"
           />
           <button
             className={Styles.increment}
@@ -169,7 +195,7 @@ function Card({ cryptoKey, itemData }) {
             +
           </button>
         </div>
-        <button className={Styles.addToCart} type="button">
+        <button className={Styles.addToCart} type="submit">
           Add to cart
         </button>
       </form>
@@ -271,9 +297,10 @@ function Card({ cryptoKey, itemData }) {
 }
 
 Card.propTypes = {
-    cryptoKey: PropTypes.string.isRequired,
-    itemData: PropTypes.object.isRequired
-
+  cryptoKey: PropTypes.string.isRequired,
+  itemData: PropTypes.object.isRequired,
+  setCart: PropTypes.func.isRequired,
+  cart: PropTypes.array.isRequired,
 };
 
 export default Card;

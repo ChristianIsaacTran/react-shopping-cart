@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import Styles from "./TodayShop.module.css";
 import CardGroup from "./CardGroup";
+import PropTypes from "prop-types";
 
-function TodayShop() {
+function TodayShop({setCart, cart}) {
   // TODO: make the item shop generate cards for today's item shop
 
   const [loading, setLoading] = useState(true);
@@ -101,6 +102,8 @@ function TodayShop() {
           key={itemArr[0].uniqueKey}
           itemGroupName={itemGroupName}
           items={itemArr}
+          setCart={setCart}
+          cart={cart}
         />,
       );
     }
@@ -115,5 +118,10 @@ function TodayShop() {
     </section>
   );
 }
+
+TodayShop.propTypes = {
+    setCart: PropTypes.func.isRequired,
+    cart: PropTypes.array.isRequired,
+};
 
 export default TodayShop;

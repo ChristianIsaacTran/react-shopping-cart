@@ -2,14 +2,14 @@ import Styles from "./CardGroup.module.css";
 import Card from "./Card";
 import PropTypes from "prop-types";
 
-function CardGroup({ itemGroupName, items }) {
+function CardGroup({ itemGroupName, items, setCart, cart}) {
 
   const generateCards = () => {
     let cardArr = [];
 
     // for each item in the items prop, make a <li> card/Card component
     cardArr = items.map((item) => {
-      return <Card key={item.uniqueKey} itemData={item} cryptoKey={item.uniqueKey}  />;
+      return <Card key={item.uniqueKey} itemData={item} cryptoKey={item.uniqueKey} setCart={setCart} cart={cart} />;
     });
 
     return cardArr;
@@ -25,8 +25,9 @@ function CardGroup({ itemGroupName, items }) {
 
 CardGroup.propTypes = {
     itemGroupName: PropTypes.string.isRequired,
-    items: PropTypes.array.isRequired
-
+    items: PropTypes.array.isRequired,
+    setCart: PropTypes.func.isRequired,
+    cart: PropTypes.array.isRequired,
 }
 
 export default CardGroup;

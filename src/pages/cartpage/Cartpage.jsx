@@ -6,12 +6,13 @@ import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 
 function Cartpage() {
+  // cart useState, from parent route "root"
   const [cartArr, setCartArr] = useOutletContext();
 
   return (
     <main>
       <Header /> 
-      <NavBar />
+      <NavBar cart={cartArr}/>
       <Footer />
     </main>
   );
