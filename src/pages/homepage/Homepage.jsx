@@ -9,6 +9,7 @@ import FortniteMap from "../../components/FortniteMap/FortniteMap";
 import Styles from "./Homepage.module.css";
 
 function Homepage() {
+  // cart useState, from parent route "root"
   const [cartArr, setCartArr] = useOutletContext();
 
   return (
