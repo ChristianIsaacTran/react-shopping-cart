@@ -62,7 +62,7 @@ Project goes over concpets such as:
   }
 
 - For react testing with routes, you need to make a whole new router (preferably a memoryRouter since it uses no DOM). This allows us to
-  render our own router with <RouterProvider router={theTestRouter} /> in the render() function inside the test. This renders the whole route
+  render our own router with RouterProvider router={theTestRouter} in the render() function inside the test. This renders the whole route
   including the child routes so I can use userEvent to simulate user interactions with navigation elements, then check if the actual location
   object path is correct with "theTestRouter.state.location.pathname" which returns the current path the testRouter is on.
   - memory routers have many utilities, but .state returns the current state of the router, .location returns a location object that
@@ -93,7 +93,7 @@ Project goes over concpets such as:
 Once I've mocked my fetch calls, I can render my component, function, or whatever makes the api call and it will use that mocked version instead of the
 actual API during testing.
 
-render(<myComponentThatCallsFetch />);
+render(myComponentThatCallsFetch);
 
 - Also, make sure to re-check any try-catch-finally blocks. I made one inside ImgCarousel.jsx, but it wasn't working because
   I put the fetch logic inside of another function while my try-catch-finally block was on the outer shell. When I moved it inside
@@ -129,5 +129,3 @@ any need to since I didn't make the built-in feature.
   but since I was just using useState, I couldn't figure out how to trigger the animation more than once. When the user clicked on the button initially, the useState would then set the visibility of the div to "true" (I used a boolean useState()) and then it would dynamically render the div which would then play the animation once. The issue I was having was AFTER that initial click, I would have to manually reset the useState variable to "false" and cause the div to un-render or reset, to have the animation play again. In order to accomplish that, I decided to change the useState() to be an object that has two properties: 
     - visibility: which controls the initial dynamic render and prevents the div from rendering prematurely
     - key: A number variable that will change everytime the user clicks on the "Add to Cart" button, so that the div will be treated as a new div on every re-render
-
-  

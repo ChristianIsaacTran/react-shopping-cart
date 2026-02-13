@@ -10,9 +10,6 @@ function Shoppage() {
   // cart useState, from parent route "root"
   const [cartArr, setCartArr] = useOutletContext();
 
-  console.log("SHOP PAGE: ");
-  console.log(cartArr);
-
   return (
     <main>
       <Header />

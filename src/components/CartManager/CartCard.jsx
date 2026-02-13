@@ -1,24 +1,22 @@
-import Styles from "./Card.module.css";
+/*
+ copy logic ffom TodayShop component's Card.jsx to create cards, but 
+ list them out going down with the item information. 
+
+ It's going to be a <ul> in the parent CartManager, that lists all items in the cart, each with the 
+ item information and functionalities like changing the item amount logic (with some tweaks). 
+*/
+
+import Styles from "./CartCard.module.css";
 import vbucksLogo from "../../assets/images/fortniteVBucks.png";
-import {useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
-function Card({ cryptoKey, itemData, setCart, cart }) {
-  // useState for the item amount input field. Inputs are always strings
-  const [amountValue, setAmountValue] = useState("0");
+function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
+  // useState for the item amount input field. Inputs are always strings.
+  // set initial state to be the amount in currentCartItem, but as a string.
+  const [amountValue, setAmountValue] = useState(currentCartItem.amount.toString());
 
-  /* 
-  visual state used to display "added to cart" when user click add to cart
-    - visibility: bool = used to prevent initial render from playing animation without clicking the "Add to cart button"
-    - key: number = used to change the key prop on the <div> every re-render which causes react to replay the animation 
-
-    ** plan is when the user clicks on the "Add to Cart" button, it triggers a re-render which then causes the visibility to become true 
-    which then dynamically renders the <div> with a key. Everytime AFTER the initial "Add to Cart" click, it causes the <div> to have a new 
-    key which then upon re-render, replays the "Added to Cart" animation due to react thinking it's a new element.
-  */
-  const [visible, setVisible] = useState({visiblity: false, key: 0});
-
-
+  const [visible, setVisible] = useState({ visiblity: false, key: 0 });
 
   //   returns rarity styling depending on the item rarity
   const checkRarity = (isBundle = false) => {
@@ -172,7 +170,6 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
       const tempObj = {
         item: { ...itemData },
         amount: submittedItemAmount,
-        price: itemData.finalPrice,
       };
 
       tempArr.push(tempObj);
@@ -187,7 +184,7 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
       considering the <div> with a new key to be a new element.
       */
       setVisible((previousValue) => {
-        const tempObj = {...previousValue};
+        const tempObj = { ...previousValue };
 
         tempObj.visiblity = true;
 
@@ -196,8 +193,6 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
         return tempObj;
       });
     };
-
-    
 
     return (
       <form className={Styles.inputFlexContainer} onSubmit={formSubmitHandler}>
@@ -226,7 +221,11 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
             +
           </button>
         </div>
-        {visible.visiblity && <div key={visible.key} className={Styles.show}>Added to Cart!</div> }
+        {visible.visiblity && (
+          <div key={visible.key} className={Styles.show}>
+            Added to Cart!
+          </div>
+        )}
         <button className={Styles.addToCart} type="submit">
           Add to Cart
         </button>
@@ -333,6 +332,7 @@ Card.propTypes = {
   itemData: PropTypes.object.isRequired,
   setCart: PropTypes.func.isRequired,
   cart: PropTypes.array.isRequired,
+  currentCartItem: PropTypes.object.isRequired,
 };
 
 export default Card;
