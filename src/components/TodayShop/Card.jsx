@@ -1,6 +1,6 @@
 import Styles from "./Card.module.css";
 import vbucksLogo from "../../assets/images/fortniteVBucks.png";
-import {useState } from "react";
+import { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 function Card({ cryptoKey, itemData, setCart, cart }) {
@@ -16,9 +16,10 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
     which then dynamically renders the <div> with a key. Everytime AFTER the initial "Add to Cart" click, it causes the <div> to have a new 
     key which then upon re-render, replays the "Added to Cart" animation due to react thinking it's a new element.
   */
-  const [visible, setVisible] = useState({visiblity: false, key: 0});
+  const [visible, setVisible] = useState({ visiblity: false, key: 0 });
 
-
+  // used to reference input to clear errors on valid submission after error catch
+  const inputRef = useRef(null);
 
   //   returns rarity styling depending on the item rarity
   const checkRarity = (isBundle = false) => {
@@ -187,7 +188,7 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
       considering the <div> with a new key to be a new element.
       */
       setVisible((previousValue) => {
-        const tempObj = {...previousValue};
+        const tempObj = { ...previousValue };
 
         tempObj.visiblity = true;
 
@@ -197,7 +198,19 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
       });
     };
 
-    
+    // this function is used to clear any errors after catching an onchange error to allow submission of previous
+    const clearErrorAfterCaughtError = () => {
+      // regex for only number inputs, check if input is NOT a number
+      const onlyNumbers = /^\d+$/;
+
+      const tempNum = parseInt(inputRef.current.value);
+
+      // check if the current input is valid. if it is, clear input errors
+      if (onlyNumbers.test(tempNum)) {
+        inputRef.current.setCustomValidity("");
+        return;
+      }
+    };
 
     return (
       <form className={Styles.inputFlexContainer} onSubmit={formSubmitHandler}>
@@ -210,6 +223,7 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
             -
           </button>
           <input
+            ref={inputRef}
             className={Styles.itemAmount}
             type="number"
             value={amountValue}
@@ -226,8 +240,16 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
             +
           </button>
         </div>
-        {visible.visiblity && <div key={visible.key} className={Styles.show}>Added to Cart!</div> }
-        <button className={Styles.addToCart} type="submit">
+        {visible.visiblity && (
+          <div key={visible.key} className={Styles.show}>
+            Added to Cart!
+          </div>
+        )}
+        <button
+          className={Styles.addToCart}
+          type="submit"
+          onClick={clearErrorAfterCaughtError}
+        >
           Add to Cart
         </button>
       </form>

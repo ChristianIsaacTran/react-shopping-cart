@@ -22,7 +22,7 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
   const [visible, setVisible] = useState({visiblity: false, key: 0});
 
 
-  // used to reference input to clear errors on valid submission
+  // used to reference input to clear errors on valid submission after error catch
   const inputRef = useRef(null);
 
 
