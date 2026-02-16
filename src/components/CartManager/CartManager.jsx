@@ -52,6 +52,8 @@ function CartManager({ cart, setCart }) {
           key={generatedKey}
           cryptoKey={generatedKey}
           currentCartItem={cartEntry}
+          cart={cart}
+          setCart={setCart}
         />
       );
     });

@@ -11,12 +11,12 @@ import vbucksLogo from "../../assets/images/fortniteVBucks.png";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
+function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
   // useState for the item amount input field. Inputs are always strings.
   // set initial state to be the amount in currentCartItem, but as a string.
-  const [amountValue, setAmountValue] = useState(currentCartItem.amount.toString());
-
-  const [visible, setVisible] = useState({ visiblity: false, key: 0 });
+  const [amountValue, setAmountValue] = useState(
+    currentCartItem.amount.toString(),
+  );
 
   //   returns rarity styling depending on the item rarity
   const checkRarity = (isBundle = false) => {
@@ -85,10 +85,29 @@ function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
 
   //  function returns jsx element to add a number variable input, and an increment and decrement button to item
   const addNumberInput = () => {
+    // when the amount changes, edit the cart amount to reflect changes
+    const editItemAmount = (num) => {
+      // copy cart for editing
+      let tempArr = [...cart];
+
+      // find the current item inside the cart array, change the cart amount when found
+      tempArr = tempArr.map((cartEntry) => {
+        if (currentCartItem.item === cartEntry.item) {
+          cartEntry.amount = num;
+        }
+
+        return cartEntry;
+      });
+
+      setCart(tempArr);
+    };
+
     // handles user input change, prevents the use of + and e in numerical input, and any input outside the range
     const amountOnChangeHandler = (e) => {
       // check if input field is empty, then replace with zero
       if (e.target.value === "") {
+        // edit cart number when amount is empty (zero)
+        editItemAmount(0);
         return setAmountValue("0");
       }
 
@@ -105,7 +124,6 @@ function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
 
         // set and display validity error for input
         e.target.reportValidity();
-        return;
       }
 
       //   convert back to string when done
@@ -114,6 +132,10 @@ function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
       //   if no error, clear validity message.
       setAmountValue(tempNum);
       e.target.setCustomValidity("");
+
+      // edit the cart number when amount is changed
+      editItemAmount(tempNum);
+
     };
 
     // increment click handler, changes the useState up by one
@@ -124,10 +146,15 @@ function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
         return;
       }
 
+      
+
       setAmountValue((previousValue) => {
         let tempNum = parseInt(previousValue);
 
         tempNum = tempNum + 1;
+
+        // also edit cart amount number
+        editItemAmount(tempNum);
 
         return tempNum.toString();
       });
@@ -146,56 +173,15 @@ function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
 
         tempNum = tempNum - 1;
 
+        // also edit cart amount number
+        editItemAmount(tempNum);
+
         return tempNum.toString();
       });
     };
 
-    // When the form is submitted, prevent default and add the current item with amount as an object to the cartArr with setCart prop
-    // TODO: prevent duplicate items from being added. If the item already exists in the cart, add the amount to the existing array item
-    const formSubmitHandler = (e) => {
-      e.preventDefault();
-
-      // get value from form submission
-      const submittedItemAmount = parseInt(e.target.amount.value);
-
-      // if the amount for the item is 0, do nothing
-      if (submittedItemAmount === 0) {
-        return;
-      }
-
-      // copy cart to an temp array for manipulation
-      const tempArr = [...cart];
-
-      // create an object that groups the item object and the amount that the user submitted
-      const tempObj = {
-        item: { ...itemData },
-        amount: submittedItemAmount,
-      };
-
-      tempArr.push(tempObj);
-
-      // set array to the new array with the added item
-      setCart(tempArr);
-
-      /*
-      The button will trigger the re-render which will cause the 
-      <div> to have a new "key" prop, which means react will unmount/mount the 
-      <div> treating it as a whole new element which will replay the animation again because it's 
-      considering the <div> with a new key to be a new element.
-      */
-      setVisible((previousValue) => {
-        const tempObj = { ...previousValue };
-
-        tempObj.visiblity = true;
-
-        tempObj.key = tempObj.key + 1;
-
-        return tempObj;
-      });
-    };
-
     return (
-      <form className={Styles.inputFlexContainer} onSubmit={formSubmitHandler}>
+      <form className={Styles.inputFlexContainer}>
         <div className={Styles.amountContainer}>
           <button
             className={Styles.decrement}
@@ -221,14 +207,6 @@ function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
             +
           </button>
         </div>
-        {visible.visiblity && (
-          <div key={visible.key} className={Styles.show}>
-            Added to Cart!
-          </div>
-        )}
-        <button className={Styles.addToCart} type="submit">
-          Add to Cart
-        </button>
       </form>
     );
   };
@@ -327,7 +305,7 @@ function Card({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
   );
 }
 
-Card.propTypes = {
+CartCard.propTypes = {
   cryptoKey: PropTypes.string.isRequired,
   itemData: PropTypes.object.isRequired,
   setCart: PropTypes.func.isRequired,
@@ -335,4 +313,4 @@ Card.propTypes = {
   currentCartItem: PropTypes.object.isRequired,
 };
 
-export default Card;
+export default CartCard;

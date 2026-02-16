@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import {Link, useOutletContext} from "react-router";
+import { Link, useOutletContext } from "react-router";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
@@ -12,9 +12,9 @@ function Cartpage() {
 
   return (
     <main>
-      <Header /> 
-      <NavBar cart={cartArr}/>
-      <CartManager cart={cartArr} setCart={setCartArr}/>
+      <Header />
+      <NavBar cart={cartArr} />
+      <CartManager cart={cartArr} setCart={setCartArr} />
       <Footer />
     </main>
   );

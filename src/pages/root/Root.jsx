@@ -10,6 +10,9 @@ function Root() {
    */
   const [cartArr, setCartArr] = useState([]);
 
+  console.log(cartArr);
+
+
   return (
     <>
       
