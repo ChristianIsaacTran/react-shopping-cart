@@ -8,7 +8,7 @@
 
 import Styles from "./CartCard.module.css";
 import vbucksLogo from "../../assets/images/fortniteVBucks.png";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
@@ -17,6 +17,14 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
   const [amountValue, setAmountValue] = useState(
     currentCartItem.amount.toString(),
   );
+
+  // used to display "edited cart!" message after user submits form successfully
+  const [visible, setVisible] = useState({visiblity: false, key: 0});
+
+
+  // used to reference input to clear errors on valid submission
+  const inputRef = useRef(null);
+
 
   //   returns rarity styling depending on the item rarity
   const checkRarity = (isBundle = false) => {
@@ -85,29 +93,12 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
 
   //  function returns jsx element to add a number variable input, and an increment and decrement button to item
   const addNumberInput = () => {
-    // when the amount changes, edit the cart amount to reflect changes
-    const editItemAmount = (num) => {
-      // copy cart for editing
-      let tempArr = [...cart];
-
-      // find the current item inside the cart array, change the cart amount when found
-      tempArr = tempArr.map((cartEntry) => {
-        if (currentCartItem.item === cartEntry.item) {
-          cartEntry.amount = num;
-        }
-
-        return cartEntry;
-      });
-
-      setCart(tempArr);
-    };
-
+    
     // handles user input change, prevents the use of + and e in numerical input, and any input outside the range
     const amountOnChangeHandler = (e) => {
       // check if input field is empty, then replace with zero
       if (e.target.value === "") {
         // edit cart number when amount is empty (zero)
-        editItemAmount(0);
         return setAmountValue("0");
       }
 
@@ -124,6 +115,7 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
 
         // set and display validity error for input
         e.target.reportValidity();
+        return;
       }
 
       //   convert back to string when done
@@ -132,10 +124,6 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
       //   if no error, clear validity message.
       setAmountValue(tempNum);
       e.target.setCustomValidity("");
-
-      // edit the cart number when amount is changed
-      editItemAmount(tempNum);
-
     };
 
     // increment click handler, changes the useState up by one
@@ -146,15 +134,11 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
         return;
       }
 
-      
-
       setAmountValue((previousValue) => {
         let tempNum = parseInt(previousValue);
 
         tempNum = tempNum + 1;
 
-        // also edit cart amount number
-        editItemAmount(tempNum);
 
         return tempNum.toString();
       });
@@ -173,15 +157,66 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
 
         tempNum = tempNum - 1;
 
-        // also edit cart amount number
-        editItemAmount(tempNum);
-
         return tempNum.toString();
       });
     };
 
+     // When the form is submitted, prevent default and add the current item with amount as an object to the cartArr with setCart prop
+    // TODO: prevent duplicate items from being added. If the item already exists in the cart, add the amount to the existing array item
+    const formSubmitHandler = (e) => {
+      e.preventDefault();
+
+      // get value from form submission
+      const submittedItemAmount = parseInt(e.target.amount.value);
+
+
+      // when submitted, find and change the amount of the item in the cart to the submitted value. 
+      let tempArr = [...cart];
+
+      // find the current item inside the cart array, change the cart amount when found
+      tempArr = tempArr.map((cartEntry) => {
+        if (currentCartItem.item === cartEntry.item) {
+          cartEntry.amount = submittedItemAmount;
+        }
+
+        return cartEntry;
+      });
+
+      setCart(tempArr);
+      
+      /*
+      The button will trigger the re-render which will cause the 
+      <div> to have a new "key" prop, which means react will unmount/mount the 
+      <div> treating it as a whole new element which will replay the animation again because it's 
+      considering the <div> with a new key to be a new element.
+      */
+      setVisible((previousValue) => {
+        const tempObj = {...previousValue};
+
+        tempObj.visiblity = true;
+
+        tempObj.key = tempObj.key + 1;
+
+        return tempObj;
+      });
+    };
+
+    // this function is used to clear any errors after catching an onchange error to allow submission of previous 
+    const clearErrorAfterCaughtError = () => {
+      // regex for only number inputs, check if input is NOT a number
+      const onlyNumbers = /^\d+$/;
+
+      const tempNum = parseInt(inputRef.current.value);
+
+      // check if the current input is valid. if it is, clear input errors
+      if (onlyNumbers.test(tempNum)) {
+        inputRef.current.setCustomValidity("");
+        return;
+      }
+    }
+
     return (
-      <form className={Styles.inputFlexContainer}>
+      <form className={Styles.inputFlexContainer} onSubmit={formSubmitHandler}>
         <div className={Styles.amountContainer}>
           <button
             className={Styles.decrement}
@@ -191,6 +226,7 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
             -
           </button>
           <input
+          ref={inputRef}
             className={Styles.itemAmount}
             type="number"
             value={amountValue}
@@ -207,6 +243,8 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
             +
           </button>
         </div>
+        {visible.visiblity && <div key={visible.key} className={Styles.show}>Edited Cart!</div> }
+        <button className={Styles.addToCart} type="submit" onClick={clearErrorAfterCaughtError}>Edit Item</button>
       </form>
     );
   };

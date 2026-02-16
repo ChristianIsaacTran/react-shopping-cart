@@ -21,7 +21,6 @@ function CartManager({ cart, setCart }) {
       }
 
       const cartTotalPrice = cart.reduce((previousTotal, currentItem) => {
-        console.log(currentItem);
         previousTotal = previousTotal + currentItem.amount * currentItem.price;
         return previousTotal;
       }, 0);
@@ -44,13 +43,11 @@ function CartManager({ cart, setCart }) {
 
     // make an array of CartCard.jsx components from cart array
     tempArr = cart.map((cartEntry) => {
-      const generatedKey = crypto.randomUUID();
-
       return (
         <CartCard
           itemData={cartEntry.item}
-          key={generatedKey}
-          cryptoKey={generatedKey}
+          key={cartEntry.item.uniqueKey}
+          cryptoKey={cartEntry.item.uniqueKey}
           currentCartItem={cartEntry}
           cart={cart}
           setCart={setCart}
