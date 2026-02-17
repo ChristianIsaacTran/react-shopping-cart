@@ -1,18 +1,16 @@
-
-
 .groupTitle {
-  composes: mainTitle from "../ImgCarousel/ImgCarousel.module.css";
   font-size: 3rem;
   background-color: #003cff;
+  text-align: center;
+  padding: 1rem;
+  color: white;
 }
 
 .itemList {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    justify-items: center;
-    gap: 1rem;
-    list-style: none;
-    margin: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  justify-items: center;
+  gap: 1rem;
+  list-style: none;
+  margin: 2rem;
 }
-
-
