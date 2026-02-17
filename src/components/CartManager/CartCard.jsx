@@ -215,6 +215,20 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
       }
     }
 
+    // removes the item from the cart
+    const removeHandler = () => {
+      let tempArr = [...cart];
+
+      // filter out the removed item from the cart array, then set the cart array to be the filtered array
+      tempArr = tempArr.filter((cartEntry) => {
+        if (currentCartItem.item !== cartEntry.item) {
+          return cartEntry;
+        }
+      });
+
+      setCart(tempArr);
+    };
+
     return (
       <form className={Styles.inputFlexContainer} onSubmit={formSubmitHandler}>
         <div className={Styles.amountContainer}>
@@ -245,7 +259,7 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
         </div>
         {visible.visiblity && <div key={visible.key} className={Styles.show}>Edited Cart!</div> }
         <button className={Styles.addToCart} type="submit" onClick={clearErrorAfterCaughtError}>Edit Item</button>
-        
+        <button className={Styles.remove} onClick={removeHandler}>Remove</button>
       </form>
     );
   };

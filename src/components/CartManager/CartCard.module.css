@@ -200,6 +200,19 @@ input[type="number"] {
   transform: translate(130px, -40px);
 }
 
+.remove {
+  composes: addToCart;
+  background-color: red;
+  color: black;
+  border: rgb(231, 78, 40) solid 5px;
+}
+
+.remove:hover {
+  color: white;
+  background-color: rgb(82, 0, 0);
+  border: rgb(66, 0, 0) solid 5px;
+}
+
 @keyframes slide-up-fade-out {
   0% {
     opacity: 100%;
