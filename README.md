@@ -129,3 +129,7 @@ any need to since I didn't make the built-in feature.
   but since I was just using useState, I couldn't figure out how to trigger the animation more than once. When the user clicked on the button initially, the useState would then set the visibility of the div to "true" (I used a boolean useState()) and then it would dynamically render the div which would then play the animation once. The issue I was having was AFTER that initial click, I would have to manually reset the useState variable to "false" and cause the div to un-render or reset, to have the animation play again. In order to accomplish that, I decided to change the useState() to be an object that has two properties: 
     - visibility: which controls the initial dynamic render and prevents the div from rendering prematurely
     - key: A number variable that will change everytime the user clicks on the "Add to Cart" button, so that the div will be treated as a new div on every re-render
+
+- useRef hook is used to store mutable values that can change without causing a re-render in the component, or store a reference to a DOM 
+element using the ref="" attribute and assigning the useRef to the DOM element. I used it in the Card.jsx and CartCard.jsx to reference the 
+input element in other functions to clear validity since having any custom validity prevents submission of forms.
