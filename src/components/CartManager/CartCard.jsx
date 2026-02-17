@@ -1,5 +1,5 @@
 /*
- copy logic ffom TodayShop component's Card.jsx to create cards, but 
+ copy logic from TodayShop component's Card.jsx to create cards, but 
  list them out going down with the item information. 
 
  It's going to be a <ul> in the parent CartManager, that lists all items in the cart, each with the 
@@ -245,6 +245,7 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
         </div>
         {visible.visiblity && <div key={visible.key} className={Styles.show}>Edited Cart!</div> }
         <button className={Styles.addToCart} type="submit" onClick={clearErrorAfterCaughtError}>Edit Item</button>
+        
       </form>
     );
   };

@@ -112,10 +112,17 @@ input[type="number"] {
 }
 
 .increment {
-  composes: toggleButton from "../FortniteMap/FortniteMap.module.css";
   min-height: 3rem;
   min-width: 3rem;
   margin: 0;
+  font-family: FortniteFont;
+  background-color: #3d02bd;
+  border: 10px solid #2a095f;
+  color: rgb(0, 255, 255);
+  font-size: 2rem;
+  transition:
+    background-color 0.1s,
+    color 0.1s;
 }
 
 .decrement {
@@ -180,32 +187,28 @@ input[type="number"] {
   max-height: 30rem;
 }
 
-
 .show {
-    opacity: 0%;
-    animation: 2s slide-up-fade-out;
-    position: absolute;
-    font-size: 1.5rem;
-    color: white;
-    background-color: green;
-    border: rgb(16, 59, 16) solid 5px;
-    min-width: 8 rem;
-    z-index: 10;
-    transform: translate(130px, -40px);
+  opacity: 0%;
+  animation: 2s slide-up-fade-out;
+  position: absolute;
+  font-size: 1.5rem;
+  color: white;
+  background-color: green;
+  border: rgb(16, 59, 16) solid 5px;
+  min-width: 8 rem;
+  z-index: 10;
+  transform: translate(130px, -40px);
 }
 
-
-
 @keyframes slide-up-fade-out {
-    0% {
-        opacity: 100%
-    }
+  0% {
+    opacity: 100%;
+  }
 
-    50% {
+  50% {
+  }
 
-    }
-
-    100% {
-        opacity: 0%;
-    }
+  100% {
+    opacity: 0%;
+  }
 }
