@@ -182,6 +182,11 @@ input[type="number"] {
   transform: translate(130px, -40px);
 }
 
+.amountExceedError {
+  background-color: red;
+    border: rgb(165, 49, 49) solid 5px;
+}
+
 .increment {
   min-height: 3rem;
   min-width: 3rem;

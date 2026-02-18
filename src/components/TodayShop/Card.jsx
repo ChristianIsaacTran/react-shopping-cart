@@ -16,7 +16,11 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
     which then dynamically renders the <div> with a key. Everytime AFTER the initial "Add to Cart" click, it causes the <div> to have a new 
     key which then upon re-render, replays the "Added to Cart" animation due to react thinking it's a new element.
   */
-  const [visible, setVisible] = useState({ visiblity: false, key: 0 });
+  const [visible, setVisible] = useState({
+    visiblity: false,
+    key: 0,
+    amountExceedError: false,
+  });
 
   // used to reference input to clear errors on valid submission after error catch
   const inputRef = useRef(null);
@@ -153,6 +157,21 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
       });
     };
 
+    // utility function that checks if the item is already in the cart.
+    const checkItemInCart = () => {
+      const tempCartArr = [...cart];
+
+      let inCart = false;
+
+      tempCartArr.forEach((cartEntry) => {
+        if (cartEntry.cartID === cryptoKey) {
+          inCart = true;
+        }
+      });
+
+      return inCart;
+    };
+
     // When the form is submitted, prevent default and add the current item with amount as an object to the cartArr with setCart prop
     // TODO: prevent duplicate items from being added. If the item already exists in the cart, add the amount to the existing array item
     const formSubmitHandler = (e) => {
@@ -160,6 +179,68 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
 
       // get value from form submission
       const submittedItemAmount = parseInt(e.target.amount.value);
+
+      // check if the item already is in the cart
+      if (checkItemInCart()) {
+        // if the amount for the item is 0, do nothing
+        if (submittedItemAmount === 0) {
+          return;
+        }
+
+        // otherwise, add to the existing cart amount
+        let tempCartArr = [...cart];
+
+        let amountError = false;
+
+        tempCartArr = tempCartArr.map((cartEntry) => {
+          // find item in cart
+          if (cartEntry.cartID === cryptoKey) {
+            const testAmount = cartEntry.amount + submittedItemAmount;
+
+            // check if amount added to cart exceeds the amount limit
+            if (testAmount > 99 || testAmount < 0) {
+              setVisible((previousValue) => {
+                const tempObj = { ...previousValue };
+
+                tempObj.visiblity = true;
+
+                tempObj.key = tempObj.key + 1;
+
+                tempObj.amountExceedError = true;
+
+                return tempObj;
+              });
+
+              amountError = true;
+            }
+
+            // error case, return the cart unchanged if addec amount exceeds 0-99 item limit in cart
+            if (amountError) {
+              return cartEntry;
+            }
+
+            // no error, then add amount to cart entry
+            setVisible((previousValue) => {
+              const tempObj = { ...previousValue };
+
+              tempObj.visiblity = true;
+
+              tempObj.key = tempObj.key + 1;
+
+              tempObj.amountExceedError = false;
+
+              return tempObj;
+            });
+
+            cartEntry.amount = testAmount;
+            return cartEntry;
+          }
+        });
+
+        // edit cart and display message
+        setCart(tempCartArr);
+        return;
+      }
 
       // if the amount for the item is 0, do nothing
       if (submittedItemAmount === 0) {
@@ -174,6 +255,7 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
         item: { ...itemData },
         amount: submittedItemAmount,
         price: itemData.finalPrice,
+        cartID: cryptoKey,
       };
 
       tempArr.push(tempObj);
@@ -193,6 +275,8 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
         tempObj.visiblity = true;
 
         tempObj.key = tempObj.key + 1;
+
+        tempObj.amountExceedError = false;
 
         return tempObj;
       });
@@ -240,11 +324,16 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
             +
           </button>
         </div>
-        {visible.visiblity && (
-          <div key={visible.key} className={Styles.show}>
-            Added to Cart!
-          </div>
-        )}
+        {visible.visiblity &&
+          (visible.amountExceedError ? (
+            <div key={visible.key} className={`${Styles.show} ${Styles.amountExceedError}`}>
+              Item cart amount exceeds limit!
+            </div>
+          ) : (
+            <div key={visible.key} className={Styles.show}>
+              Added to Cart!
+            </div>
+          ))}
         <button
           className={Styles.addToCart}
           type="submit"
