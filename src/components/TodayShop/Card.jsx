@@ -157,14 +157,31 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
       });
     };
 
+    // utility function that gets the name of the item for comparison
+    const getNameOfItem = (item) => {
+      if (Object.hasOwn(item, "bundle")) {
+        return item.bundle.name;
+      } else if (Object.hasOwn(itemData, "tracks")) {
+        return item.tracks[0].title;
+      } else if (Object.hasOwn(itemData, "brItems")) {
+        return item.brItems[0].name;
+      }
+
+      return null;
+    };
+
     // utility function that checks if the item is already in the cart.
     const checkItemInCart = () => {
       const tempCartArr = [...cart];
 
       let inCart = false;
 
+      const currentItemName = getNameOfItem(itemData);
+
       tempCartArr.forEach((cartEntry) => {
-        if (cartEntry.cartID === cryptoKey) {
+        const cartEntryItemName = getNameOfItem(cartEntry.item);
+
+        if (cartEntryItemName === currentItemName) {
           inCart = true;
         }
       });
@@ -193,9 +210,13 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
 
           let amountError = false;
 
+          const currentItemName = getNameOfItem(itemData);
+
           tempCartArr = tempCartArr.map((cartEntry) => {
             // find item in cart
-            if (cartEntry.cartID === cryptoKey) {
+            const cartEntryItemName = getNameOfItem(cartEntry.item);
+
+            if (cartEntryItemName === currentItemName) {
               const testAmount = cartEntry.amount + submittedItemAmount;
 
               // check if amount added to cart exceeds the amount limit
@@ -256,7 +277,6 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
           item: { ...itemData },
           amount: submittedItemAmount,
           price: itemData.finalPrice,
-          cartID: cryptoKey,
         };
 
         tempArr.push(tempObj);
