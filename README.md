@@ -100,36 +100,52 @@ render(myComponentThatCallsFetch);
   of the same function as the fetch request, now it works, so make sure that the try-catch-finally blocks are scoped properly if they
   aren't rendering things properly.
 
-- when using userEvents from the RTL userEvents, make sure to make the action await because the 
-userEvents are asynchronous so they have to wait for re-renders or other factors triggered by the event.
+- when using userEvents from the RTL userEvents, make sure to make the action await because the
+  userEvents are asynchronous so they have to wait for re-renders or other factors triggered by the event.
 
-- when testing, you cannot test browser built-in features like native input="number" increment and decrement arrow key behavior, nor is there 
-any need to since I didn't make the built-in feature.
+- when testing, you cannot test browser built-in features like native input="number" increment and decrement arrow key behavior, nor is there
+  any need to since I didn't make the built-in feature.
 
 - So the "cart" useState is needed by a couple components located on different webpages/routes to work properly:
-    1. shop page: needs the cart setState to "Add to Cart"
-    2. cart page: needs the cart state itself to display all the cart items visually with editing/removal functionality
-    3. NavBar component (all webpages): needs to display the amount of items in the cart at all times, even during navigation 
+  1. shop page: needs the cart setState to "Add to Cart"
+  2. cart page: needs the cart state itself to display all the cart items visually with editing/removal functionality
+  3. NavBar component (all webpages): needs to display the amount of items in the cart at all times, even during navigation
 
-  I ended up lifting the state up to the parent route component, the "root" page which holds the state. This way the child routes 
-  that are formed using <Outlet> can be provided a "context" and then the child routes can invoke the "useOutletContext()" to get and 
+  I ended up lifting the state up to the parent route component, the "root" page which holds the state. This way the child routes
+  that are formed using <Outlet> can be provided a "context" and then the child routes can invoke the "useOutletContext()" to get and
   destructure the state as needed.
 
   diagram I drew up:
   ![useState Route Architecture Drawing](./ShoppingCartArchitectureCartUseState.png)
 
-- So one problem that I just spent hours struggling with is how to "reset" a useState or cause something to re-mount as a new JSX component. When 
-  I was trying to implement a simple fade-in, fade-out notification for adding something to the cart, I tried to avoid using the useEffect() since 
-  setting state was discouraged during a useEffect, so I opted for the key technique. 
-  My main issue was when the user clicks the "Add to Cart" button, this was supposed to happen: 
-    1. A div dynamically rendered in upon re-render
-    2. The div played an animation of appearing, then slowing fading out 
-    3. The div animation needs to play everytime the user clicked on the "Add to Cart" button
+- So one problem that I just spent hours struggling with is how to "reset" a useState or cause something to re-mount as a new JSX component. When
+  I was trying to implement a simple fade-in, fade-out notification for adding something to the cart, I tried to avoid using the useEffect() since
+  setting state was discouraged during a useEffect, so I opted for the key technique.
+  My main issue was when the user clicks the "Add to Cart" button, this was supposed to happen:
+  1. A div dynamically rendered in upon re-render
+  2. The div played an animation of appearing, then slowing fading out
+  3. The div animation needs to play everytime the user clicked on the "Add to Cart" button
 
-  but since I was just using useState, I couldn't figure out how to trigger the animation more than once. When the user clicked on the button initially, the useState would then set the visibility of the div to "true" (I used a boolean useState()) and then it would dynamically render the div which would then play the animation once. The issue I was having was AFTER that initial click, I would have to manually reset the useState variable to "false" and cause the div to un-render or reset, to have the animation play again. In order to accomplish that, I decided to change the useState() to be an object that has two properties: 
-    - visibility: which controls the initial dynamic render and prevents the div from rendering prematurely
-    - key: A number variable that will change everytime the user clicks on the "Add to Cart" button, so that the div will be treated as a new div on every re-render
+  but since I was just using useState, I couldn't figure out how to trigger the animation more than once. When the user clicked on the button initially, the useState would then set the visibility of the div to "true" (I used a boolean useState()) and then it would dynamically render the div which would then play the animation once. The issue I was having was AFTER that initial click, I would have to manually reset the useState variable to "false" and cause the div to un-render or reset, to have the animation play again. In order to accomplish that, I decided to change the useState() to be an object that has two properties:
+  - visibility: which controls the initial dynamic render and prevents the div from rendering prematurely
+  - key: A number variable that will change everytime the user clicks on the "Add to Cart" button, so that the div will be treated as a new div on every re-render
 
-- useRef hook is used to store mutable values that can change without causing a re-render in the component, or store a reference to a DOM 
-element using the ref="" attribute and assigning the useRef to the DOM element. I used it in the Card.jsx and CartCard.jsx to reference the 
-input element in other functions to clear validity since having any custom validity prevents submission of forms.
+- useRef hook is used to store mutable values that can change without causing a re-render in the component, or store a reference to a DOM
+  element using the ref="" attribute and assigning the useRef to the DOM element. I used it in the Card.jsx and CartCard.jsx to reference the
+  input element in other functions to clear validity since having any custom validity prevents submission of forms.
+
+## note about publishing to netlify:
+
+Final Link to published Netlify Project: https://fortniteshoppingcart.netlify.app
+
+- So since I used react-router, an additional file needed to be made so that netlify, the (PaaS) knows that it's a
+  single page application. For netlify, I have to make a file called "\_redirects" (no file extensions like .txt, etc.) and place
+  that in the public folder for netlify to find and place in the publish directory (the dist folder). I have to do this or else netlify won't
+  let the single page application work correctly, and ruin the routing.
+
+The rule I put into the \_redirects file is:
+
+/\* /index.html 200
+
+and that tells netlify to let react-routing do the page navigation. Theres also a note on the shopping cart project in the odin project
+that gives directions about SPA \_redirects files with netlify.
