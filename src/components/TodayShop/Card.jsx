@@ -172,13 +172,11 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
 
     // utility function that checks if the item is already in the cart.
     const checkItemInCart = () => {
-      const tempCartArr = [...cart];
-
       let inCart = false;
 
       const currentItemName = getNameOfItem(itemData);
 
-      tempCartArr.forEach((cartEntry) => {
+      cart.forEach((cartEntry) => {
         const cartEntryItemName = getNameOfItem(cartEntry.item);
 
         if (cartEntryItemName === currentItemName) {
@@ -236,7 +234,7 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
                 amountError = true;
               }
 
-              // error case, return the cart unchanged if addec amount exceeds 0-99 item limit in cart
+              // error case, return the cart unchanged if added amount exceeds 0-99 item limit in cart
               if (amountError) {
                 return cartEntry;
               }
@@ -257,6 +255,9 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
               cartEntry.amount = testAmount;
               return cartEntry;
             }
+
+            // if not the matched item, return the other items 
+            return cartEntry;
           });
 
           // edit cart and display message
