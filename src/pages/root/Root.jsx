@@ -10,8 +10,6 @@ function Root() {
    */
   const [cartArr, setCartArr] = useState([]);
 
-  console.log(cartArr);
-
   return (
     <>
       <Outlet context={[cartArr, setCartArr]} />
