@@ -161,9 +161,9 @@ function Card({ cryptoKey, itemData, setCart, cart }) {
     const getNameOfItem = (item) => {
       if (Object.hasOwn(item, "bundle")) {
         return item.bundle.name;
-      } else if (Object.hasOwn(itemData, "tracks")) {
+      } else if (Object.hasOwn(item, "tracks")) {
         return item.tracks[0].title;
-      } else if (Object.hasOwn(itemData, "brItems")) {
+      } else if (Object.hasOwn(item, "brItems")) {
         return item.brItems[0].name;
       }
 
