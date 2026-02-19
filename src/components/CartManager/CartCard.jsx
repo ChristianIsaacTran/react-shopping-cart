@@ -19,12 +19,10 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
   );
 
   // used to display "edited cart!" message after user submits form successfully
-  const [visible, setVisible] = useState({visiblity: false, key: 0});
-
+  const [visible, setVisible] = useState({ visiblity: false, key: 0 });
 
   // used to reference input to clear errors on valid submission after error catch
   const inputRef = useRef(null);
-
 
   //   returns rarity styling depending on the item rarity
   const checkRarity = (isBundle = false) => {
@@ -93,7 +91,6 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
 
   //  function returns jsx element to add a number variable input, and an increment and decrement button to item
   const addNumberInput = () => {
-    
     // handles user input change, prevents the use of + and e in numerical input, and any input outside the range
     const amountOnChangeHandler = (e) => {
       // check if input field is empty, then replace with zero
@@ -139,7 +136,6 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
 
         tempNum = tempNum + 1;
 
-
         return tempNum.toString();
       });
     };
@@ -161,47 +157,50 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
       });
     };
 
-     // When the form is submitted, prevent default and add the current item with amount as an object to the cartArr with setCart prop
+    // When the form is submitted, prevent default and add the current item with amount as an object to the cartArr with setCart prop
     // TODO: prevent duplicate items from being added. If the item already exists in the cart, add the amount to the existing array item
     const formSubmitHandler = (e) => {
-      e.preventDefault();
+      try {
+        e.preventDefault();
 
-      // get value from form submission
-      const submittedItemAmount = parseInt(e.target.amount.value);
+        // get value from form submission
+        const submittedItemAmount = parseInt(e.target.amount.value);
 
+        // when submitted, find and change the amount of the item in the cart to the submitted value.
+        let tempArr = [...cart];
 
-      // when submitted, find and change the amount of the item in the cart to the submitted value. 
-      let tempArr = [...cart];
+        // find the current item inside the cart array, change the cart amount when found
+        tempArr = tempArr.map((cartEntry) => {
+          if (currentCartItem.item === cartEntry.item) {
+            cartEntry.amount = submittedItemAmount;
+          }
 
-      // find the current item inside the cart array, change the cart amount when found
-      tempArr = tempArr.map((cartEntry) => {
-        if (currentCartItem.item === cartEntry.item) {
-          cartEntry.amount = submittedItemAmount;
-        }
+          return cartEntry;
+        });
 
-        return cartEntry;
-      });
+        setCart(tempArr);
 
-      setCart(tempArr);
-      
-      /*
+        /*
       The button will trigger the re-render which will cause the 
       <div> to have a new "key" prop, which means react will unmount/mount the 
       <div> treating it as a whole new element which will replay the animation again because it's 
       considering the <div> with a new key to be a new element.
       */
-      setVisible((previousValue) => {
-        const tempObj = {...previousValue};
+        setVisible((previousValue) => {
+          const tempObj = { ...previousValue };
 
-        tempObj.visiblity = true;
+          tempObj.visiblity = true;
 
-        tempObj.key = tempObj.key + 1;
+          tempObj.key = tempObj.key + 1;
 
-        return tempObj;
-      });
+          return tempObj;
+        });
+      } catch (error) {
+        console.log(error);
+      }
     };
 
-    // this function is used to clear any errors after catching an onchange error to allow submission of previous 
+    // this function is used to clear any errors after catching an onchange error to allow submission of previous
     const clearErrorAfterCaughtError = () => {
       // regex for only number inputs, check if input is NOT a number
       const onlyNumbers = /^\d+$/;
@@ -213,7 +212,7 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
         inputRef.current.setCustomValidity("");
         return;
       }
-    }
+    };
 
     // removes the item from the cart
     const removeHandler = () => {
@@ -240,7 +239,7 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
             -
           </button>
           <input
-          ref={inputRef}
+            ref={inputRef}
             className={Styles.itemAmount}
             type="number"
             value={amountValue}
@@ -257,9 +256,21 @@ function CartCard({ setCart, cart, itemData, cryptoKey, currentCartItem }) {
             +
           </button>
         </div>
-        {visible.visiblity && <div key={visible.key} className={Styles.show}>Edited Cart!</div> }
-        <button className={Styles.addToCart} type="submit" onClick={clearErrorAfterCaughtError}>Edit Item</button>
-        <button className={Styles.remove} onClick={removeHandler}>Remove</button>
+        {visible.visiblity && (
+          <div key={visible.key} className={Styles.show}>
+            Edited Cart!
+          </div>
+        )}
+        <button
+          className={Styles.addToCart}
+          type="submit"
+          onClick={clearErrorAfterCaughtError}
+        >
+          Edit Item
+        </button>
+        <button className={Styles.remove} onClick={removeHandler}>
+          Remove
+        </button>
       </form>
     );
   };
