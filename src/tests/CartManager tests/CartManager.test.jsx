@@ -104,7 +104,6 @@ describe("CartManager displays cart item data correctly", () => {
     const itemAmount = await screen.findByRole("spinbutton");
 
     expect(itemAmount.value).toBe("5");
-    screen.debug();
   });
 
   it("Item deletes itself from cart if user clicks remove button", async () =>{
@@ -119,6 +118,6 @@ describe("CartManager displays cart item data correctly", () => {
     const emptyCartMsg = await screen.findByText("Cart is empty!");
 
     // assert that the screen displays the empty cart message when the cart item gets removed and there are no items in cart
-    expect(emptyCartMsg).toBeDefined();
+    expect(emptyCartMsg).toBeInTheDocument();
   });
 });

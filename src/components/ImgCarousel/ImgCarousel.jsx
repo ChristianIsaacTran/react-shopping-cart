@@ -91,11 +91,6 @@ function ImgCarousel() {
     return () => clearInterval(interval);
   }, [limit, shift]);
 
-  //   loading state, display if API data is still being fetched
-  if (loading || fortniteDataArr === null) {
-    return <h1 className={Styles.loading}>News loading...</h1>;
-  }
-
   //   error state, display if API fetch was unsuccessful (error code 400 or above)
   if (fetchError) {
     return (
@@ -103,6 +98,11 @@ function ImgCarousel() {
         A network error/fetching error occured.
       </h1>
     );
+  }
+
+  //   loading state, display if API data is still being fetched
+  if (loading || fortniteDataArr === null) {
+    return <h1 className={Styles.loading}>News loading...</h1>;
   }
 
   //   utility functions for data state render

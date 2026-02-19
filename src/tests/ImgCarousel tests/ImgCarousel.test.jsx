@@ -76,9 +76,7 @@ describe("Image Carousel makes API calls", () => {
 
   it("Img Carousel displays an error message if the API fails", async () => {
     // mock the API again, but this time mock the fetch failing the API request
-    global.fetch = vi.fn(() => {
-      return Promise.reject(new Error("API is down"));
-    });
+    global.fetch = vi.fn(() => Promise.reject(new Error("Api is not working")));
 
     render(<ImgCarousel />);
 
